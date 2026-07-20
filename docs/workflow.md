@@ -57,4 +57,18 @@ Elke skill is volledig zelfstandig (canonieke Anthropic structuur) opgebouwd:
 ---
 
 ## 3. Gedeelde Conventies
-Zie `docs/conventions.md` voor de gestandaardiseerde YAML-frontmatter (zoals `jurisdiction`, `version`), hybride descriptions, en JSON-escaping regels.
+Zie `docs/conventions.md` voor de gestandaardiseerde YAML-frontmatter (zoals `jurisdiction`, `version`, `compatibility_versions`), disclaimer-tekst, JSON-escaping regels, encoding- en bestandnaamconventies, taalkeuze, en update-procedure.
+
+---
+
+## 4. Scope van deze distributie
+
+Deze distributie bevat uitsluitend de 3-fase audit-pijplijn (`documenten-audit` → `ecli-verificatie` → `audit-synthese`). Andere juridische skills die in het bredere ecosysteem bestaan — `woo-avg-toets` (v4.2.0, toetsen van Woo/AVG/Wpg/Wjsg-besluiten vanuit verzoeker) en `stop-slop` (v1.0.0, verwijderen van AI-schrijfpatronen uit proza) — worden apart onderhouden en vallen **niet** onder het pipeline-contract van deze workflow.
+
+De vijf knelpunten die in §1 worden opgelost gelden specifiek voor de audit-pijplijn. `woo-avg-toets` en `stop-slop` hebben hun eigen kwaliteitsproces; zij kunnen als standalone skill worden aangeroepen zonder de andere fases te doorlopen.
+
+---
+
+## 5. Multi-jurisdictie
+
+De skills in deze distributie ondersteunen `jurisdiction: NL,EU,EHRM`. Bij conflicten tussen uitspraken uit verschillende jurisdicties geldt de hiërarchie EHRM > EU > NL. Zie `skills/documenten-audit/references/jurisdiction-hierarchy.md` voor de volledige procedure en conflictregels.

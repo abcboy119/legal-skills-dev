@@ -1,0 +1,18 @@
+{
+  "skill": "audit-synthese",
+  "generated_at": "2026-07-20",
+  "files": [
+    {
+      "path": "references/action-classification.md",
+      "sha256": "3cf4f030db8184db20af53d7ad4780c65b7234b13683d705d562a51da61a5a0c"
+    },
+    {
+      "path": "references/impact-analysis-rubric.md",
+      "sha256": "a7636e80b0dadd09999e3fe256fd0f3d862b09b65205cf806e0d17324ea0a730"
+    },
+    {
+      "path": "assets/action-list-template.md",
+      "sha256": "e207c7884f99c608c67fbfa7eaa313db47e1eb1179c5256fcfbbcd05fb978816"
+    }
+  ]
+}

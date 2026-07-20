@@ -1,0 +1,30 @@
+{
+  "skill": "ecli-verificatie",
+  "generated_at": "2026-07-20",
+  "files": [
+    {
+      "path": "references/context-budget.md",
+      "sha256": "93a66a856793db3e88c697c8d4585913275dfa2bf819932b46301a8decf18b2f"
+    },
+    {
+      "path": "references/json-output-schema.md",
+      "sha256": "0a8a221b3c63b322ea68a6ad4b28f917e9add7b20d2b2cfc43cb7e19ce73dbaa"
+    },
+    {
+      "path": "references/judgment-definitions.md",
+      "sha256": "f184a1e97f9139fb6dd47fc157fe753fc199362fd426cd6ed0c644f965361213"
+    },
+    {
+      "path": "references/source-handling.md",
+      "sha256": "79dbcc0ee6381195bc6f0572842aa05a2d8db43284b4a9a0acdc6429ca783a4c"
+    },
+    {
+      "path": "assets/json-output-example.json",
+      "sha256": "a37c0c28b22fb4800813e6c3f319ba511550b10bf9a1bca8076daf4345115c8d"
+    },
+    {
+      "path": "assets/output.schema.json",
+      "sha256": "73b0ea248d07fbfd482cb765f1f2c2cf2bd30d13ab90c128afeebdc829f52014"
+    }
+  ]
+}

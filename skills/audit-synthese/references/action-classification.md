@@ -7,7 +7,8 @@ De actie wordt bepaald door de combinatie van `oordeel` en `extractie_zekerheid`
 
 | Oordeel uit verificatie | Extractie_Zekerheid | ECLI-situatie | Actie-classificatie |
 |---|---|---|---|
-| BEVESTIGD | willekeurig | willekeurig | Geen actie |
+| BEVESTIGD | HOOG / MIDDEN | willekeurig | Geen actie |
+| BEVESTIGD | LAAG | willekeurig | "Herformuleer bewering ondanks steun (extractie was vaag)" |
 | GEDEELTELIJK | willekeurig | willekeurig | "Nuanceer bewering Z conform <vindplaats>" |
 | NIET_BEVESTIGD | HOOG / MIDDEN | willekeurig | "Heroverweeg bewering of zoek betere bron" |
 | NIET_BEVESTIGD | LAAG | willekeurig | "Bewering herschrijven: originele extractie was te vaag" |
@@ -15,6 +16,10 @@ De actie wordt bepaald door de combinatie van `oordeel` en `extractie_zekerheid`
 | NIET_CONTROLEERBAAR | willekeurig | `ecli = "N/A"` | "Bron zoeken en toevoegen" |
 | NIET_CONTROLEERBAAR | willekeurig | `ecli ≠ "N/A"` EN `ecli_formaat_geldig = false` | "ECLI corrigeren (formaatfout) en bron opnieuw zoeken" |
 | NIET_CONTROLEERBAAR | willekeurig | `ecli ≠ "N/A"` EN `ecli_formaat_geldig = true` | "Bron ophalen en opnieuw verifiëren" |
+
+### Toelichting: BEVESTIGD + LAAG
+
+Zelfs als een bron de bewering toevallig ondersteunt, was de oorspronkelijke extractie vaag. Dat betekent dat de bewering in het brondocument onduidelijk was geformuleerd — mogelijk te algemeen, te absoluut, of zonder noodzakelijke nuance. Herformulering verbetert de leesbaarheid en voorkomt dat een latere, scherper geformuleerde variant van dezelfde bewering onverifieerbaar blijkt.
 
 ## Prioritering
 
@@ -27,6 +32,7 @@ Binnen de actielijst geldt de volgende prioriteitsvolgorde (hoog → laag):
 5. **Midden** — NIET_CONTROLEERBAAR met `ecli = "N/A"` (dragende bewering zonder bron — al dan niet bron vinden).
 6. **Laag** — GEDEELTELIJK (nuancering volstaat).
 7. **Laag** — NIET_BEVESTIGD met LAAG extractie_zekerheid (bewering was al vaag — herschrijven is genoeg).
+8. **Laag** — BEVESTIGD met LAAG extractie_zekerheid (bewering wordt gesteund maar was vaag geformuleerd — herformuleren voor leesbaarheid).
 
 ## Voorbeelden
 

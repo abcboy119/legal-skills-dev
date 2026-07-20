@@ -19,7 +19,8 @@ De drie skills vormen een pipeline: `documenten-audit` -> `ecli-verificatie` -> 
 - `skills/<name>/` — bron (SKILL.md + references/ + assets/)
 - `dist/` — build-artifacts (`.skill`-bestanden)
 - `docs/` — `workflow.md`, `conventions.md`, `sync-checklist.md`
-- `scripts/` — `package_skills.py`
+- `scripts/` — `package_skills.py` (validator + builder), `generate_manifests.py` (versie-tracking)
+- `tests/` — `test_pipeline_contracts.py` (integratietest, 25 tests / 142 assertions) + `fixtures/case-001/` (worked example)
 
 ## Builden
 
@@ -32,4 +33,14 @@ python3 scripts/package_skills.py --clean               # dist/ leegmaken eerst
 
 ## Verificatie
 
-Na wijzigingen: werk `docs/sync-checklist.md` af.
+Na wijzigingen: werk `docs/sync-checklist.md` af en draai:
+
+```bash
+python3 scripts/package_skills.py --validate-only       # frontmatter + structuur
+python3 scripts/generate_manifests.py --check            # references/assets hashes
+python3 tests/test_pipeline_contracts.py                 # integratietest (25 tests)
+```
+
+Voor het worked-example: zie `tests/fixtures/case-001/README.md` voor een end-to-end walkthrough met verwachte outputs voor alle 3 fases.
+
+Zie `CHANGELOG.md` voor de volledige lijst van wijzigingen tussen v1, v2 en v3.

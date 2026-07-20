@@ -2,6 +2,7 @@
 """Package skills/ mappen naar dist/<name>.skill met validatie."""
 from __future__ import annotations
 import argparse
+import datetime as _dt
 import re
 import shutil
 import sys
@@ -9,11 +10,14 @@ import zipfile
 from pathlib import Path
 
 REQUIRED_FIELDS = ("name", "description", "version", "last_updated", "author", "license", "jurisdiction", "compatibility", "source")
+OPTIONAL_FIELDS = ("compatibility_versions",)
 DESC_MIN = 30
 DESC_MAX = 500
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-IGNORED_FILES = {".DS_Store", "__pycache__", ".git"}
+SEMVER_RANGE_RE = re.compile(r"^(\*|>=?\d+\.\d+(?:\.\d+)?|~\d+\.\d+(?:\.\d+)?|\d+\.\d+(?:\.\d+)?)$")
+DISCLAIMER_MARKER = "concept ter beoordeling"
+IGNORED_FILES = {".DS_Store", "__pycache__", ".git", "MANIFEST.json"}
 
 class ValidationError(Exception):
     pass
@@ -58,6 +62,22 @@ def parse_frontmatter(skill_md: Path) -> dict:
                 meta[current_key] = [v.strip() for v in val[1:-1].split(",") if v.strip()]
                 current_key = None
                 current_lines = []
+            elif val.startswith("{") and val.endswith("}"):
+                # inline map: {key: val, key2: val2}
+                inner = val[1:-1]
+                parsed = {}
+                for kv in inner.split(","):
+                    kv = kv.strip()
+                    if not kv:
+                        continue
+                    if ":" in kv:
+                        k, v = kv.split(":", 1)
+                        parsed[k.strip().strip('"')] = v.strip().strip('"')
+                    else:
+                        parsed[kv.strip('"')] = True
+                meta[current_key] = parsed
+                current_key = None
+                current_lines = []
             elif val:
                 meta[current_key] = val
                 current_key = None
@@ -77,6 +97,7 @@ def validate_skill(skill_dir: Path) -> list[str]:
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.exists():
         return [f"{skill_dir.name}: SKILL.md ontbreekt"]
+    text = skill_md.read_text(encoding="utf-8")
     try:
         meta = parse_frontmatter(skill_md)
     except ValidationError as e:
@@ -91,10 +112,26 @@ def validate_skill(skill_dir: Path) -> list[str]:
         errors.append(f"{skill_dir.name}: name '{name_val}' komt niet overeen met mapnaam")
     if not validate_version(str(meta["version"])):
         errors.append(f"{skill_dir.name}: version is geen semver")
-    if not validate_date(str(meta["last_updated"])):
+    last_updated = str(meta["last_updated"])
+    if not validate_date(last_updated):
         errors.append(f"{skill_dir.name}: last_updated is geen YYYY-MM-DD")
+    else:
+        # P6: last_updated mag niet in de toekomst liggen
+        try:
+            lu_date = _dt.date.fromisoformat(last_updated)
+            if lu_date > _dt.date.today():
+                errors.append(f"{skill_dir.name}: last_updated {last_updated} ligt in de toekomst")
+        except ValueError:
+            errors.append(f"{skill_dir.name}: last_updated {last_updated} is geen geldige datum")
     if not validate_description(str(meta["description"])):
         errors.append(f"{skill_dir.name}: description is <{DESC_MIN} of >{DESC_MAX} tekens")
+    # K9: disclaimer moet in SKILL.md staan
+    if DISCLAIMER_MARKER not in text:
+        errors.append(f"{skill_dir.name}: SKILL.md bevat geen <disclaimer>-blok met '{DISCLAIMER_MARKER}'")
+    # K10: compatibility_versions (optioneel) — als aanwezig, moet het een dict zijn
+    cv = meta.get("compatibility_versions")
+    if cv is not None and not isinstance(cv, dict):
+        errors.append(f"{skill_dir.name}: compatibility_versions moet een map zijn (platform: versie)")
     for sub in ("references", "assets"):
         subdir = skill_dir / sub
         if subdir.is_dir():
@@ -116,8 +153,15 @@ def package_skill(skill_dir: Path, dist_dir: Path) -> Path:
     return out
 
 def iter_skills(skills_dir: Path, only: str | None) -> list[Path]:
+    """Returneer skill-mappen.
+
+    Als `only` is opgegeven, returneer een lijst met die ene map (of een lege lijst
+    als de map niet bestaat). De caller verwerkt de lege-lijst-case expliciet —
+    we returneren nooit een pad dat niet is_dir().
+    """
     if only:
-        return [skills_dir / only]
+        candidate = skills_dir / only
+        return [candidate] if candidate.is_dir() else []
     return sorted([p for p in skills_dir.iterdir() if p.is_dir()])
 
 def main() -> int:
@@ -140,7 +184,7 @@ def main() -> int:
         return 1
 
     skills = iter_skills(skills_dir, args.skill)
-    if args.skill and not skills[0].is_dir():
+    if args.skill and not skills:
         print(f"Skill '{args.skill}' niet gevonden in {skills_dir}", file=sys.stderr)
         return 1
 

@@ -1,3 +1,4 @@
 {
-  "ECLI:NL:HR:2023:1234": "pad/naar/bronbestand.json"
+  "ECLI:NL:HR:2023:1234": "pad/naar/ECLI_NL_HR_2023_1234.json",
+  "ECLI:EU:C:2018:388": "pad/naar/ECLI_EU_C_2018_388.xml"
 }

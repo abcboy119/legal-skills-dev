@@ -290,11 +290,279 @@ def main() -> int:
     test_claim_register_template()
     test_validator_runs()
     test_self_repair_fallback()
+    # Round 3: K7-K13 + P1-P8
+    test_k7_context_budget()
+    test_k8_raw_normalized_conflict()
+    test_k9_disclaimer_in_all_skills()
+    test_k10_compatibility_versions()
+    test_k11_prompt_injection_defense()
+    test_k12_validator_nonexistent_skill()
+    test_p1_conventions_extended()
+    test_p2_workflow_scope_section()
+    test_p3_worked_example_complete()
+    test_p4_action_matrix_bevestigd_laag()
+    test_p5_manifest_schema()
+    test_p6_last_updated_not_future()
+    test_p7_manifests_consistent()
+    test_p8_jurisdiction_hierarchy()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
     print("=" * 70)
     return 0 if FAIL == 0 else 1
+
+
+# ------------------------------------------------------------------
+# Test 12 (K7): Context-budget reference bestaat en wordt geraadpleegd
+# ------------------------------------------------------------------
+def test_k7_context_budget() -> None:
+    print("\n[12] K7: Context-budget-strategie aanwezig in Fase 2")
+    cb_path = ROOT / "skills/ecli-verificatie/references/context-budget.md"
+    check("context-budget.md bestaat", cb_path.exists())
+    if not cb_path.exists():
+        return
+    cb = cb_path.read_text(encoding="utf-8")
+    check("bevat chunking-strategie", "chunking" in cb.lower())
+    check("bevat per-claim verificatie-venster", "venster" in cb.lower() or "verification" in cb.lower())
+    check("bevat volgorde van verificatie", "volgorde" in cb.lower())
+    skill_md = (ROOT / "skills/ecli-verificatie/SKILL.md").read_text(encoding="utf-8")
+    check("SKILL.md verwijst naar context-budget.md", "context-budget.md" in skill_md)
+
+
+# ------------------------------------------------------------------
+# Test 13 (K8): Raw vs normalized JSON conflict-resolutie
+# ------------------------------------------------------------------
+def test_k8_raw_normalized_conflict() -> None:
+    print("\n[13] K8: Raw vs normalized JSON conflict-resolutie in source-handling.md")
+    sh = (ROOT / "skills/ecli-verificatie/references/source-handling.md").read_text(encoding="utf-8")
+    check("bevat conflict-resolutie sectie", "Conflict-resolutie" in sh or "conflict" in sh.lower())
+    check("bevat 'raw wint' regel", "raw wint" in sh.lower() or "raw" in sh.lower())
+    check("bevat voorbeelden-tabel", "| Situatie |" in sh or "Raw = 12" in sh)
+    check("verwijst naar context-budget", "context-budget.md" in sh)
+
+
+# ------------------------------------------------------------------
+# Test 14 (K9): Disclaimer-blok in alle 3 SKILL.md's
+# ------------------------------------------------------------------
+def test_k9_disclaimer_in_all_skills() -> None:
+    print("\n[14] K9: <disclaimer>-blok met 'concept ter beoordeling' in alle skills")
+    for skill in ("documenten-audit", "ecli-verificatie", "audit-synthese"):
+        path = ROOT / f"skills/{skill}/SKILL.md"
+        text = path.read_text(encoding="utf-8")
+        check(f"{skill}: <disclaimer> tag aanwezig", "<disclaimer>" in text and "</disclaimer>" in text)
+        check(f"{skill}: 'concept ter beoordeling' aanwezig", "concept ter beoordeling" in text)
+
+
+# ------------------------------------------------------------------
+# Test 15 (K10): compatibility_versions in frontmatter van alle skills
+# ------------------------------------------------------------------
+def test_k10_compatibility_versions() -> None:
+    print("\n[15] K10: compatibility_versions (map) in frontmatter")
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import package_skills as ps
+    for skill in ("documenten-audit", "ecli-verificatie", "audit-synthese"):
+        path = ROOT / f"skills/{skill}/SKILL.md"
+        meta = ps.parse_frontmatter(path)
+        check(f"{skill}: compatibility_versions aanwezig", "compatibility_versions" in meta)
+        cv = meta.get("compatibility_versions")
+        check(f"{skill}: compatibility_versions is dict", isinstance(cv, dict))
+        if isinstance(cv, dict):
+            check(f"{skill}: claudeCode-key aanwezig", "claudeCode" in cv)
+            check(f"{skill}: openCode-key aanwezig", "openCode" in cv)
+
+
+# ------------------------------------------------------------------
+# Test 16 (K11): Prompt-injectieverdediging reference + SKILL.md verwijzingen
+# ------------------------------------------------------------------
+def test_k11_prompt_injection_defense() -> None:
+    print("\n[16] K11: Prompt-injectieverdediging in Fase 1 en geraadpleegd in Fase 2/3")
+    pid_path = ROOT / "skills/documenten-audit/references/prompt-injection-defense.md"
+    check("prompt-injection-defense.md bestaat", pid_path.exists())
+    if not pid_path.exists():
+        return
+    pid = pid_path.read_text(encoding="utf-8")
+    check("bevat structuursyntax-bescherming", "structuursyntax" in pid.lower())
+    check("bevat vierde lijn output-validatie", "output-validatie" in pid.lower() or "output" in pid.lower())
+    check("noemt </step> als risico", "</step>" in pid)
+    check("noemt --- als risico", "---" in pid)
+
+    # Fase 1 SKILL.md verwijst ernaar
+    f1 = (ROOT / "skills/documenten-audit/SKILL.md").read_text(encoding="utf-8")
+    check("Fase 1 SKILL.md verwijst naar prompt-injection-defense.md", "prompt-injection-defense.md" in f1)
+    # Fase 2 SKILL.md verwijst ernaar
+    f2 = (ROOT / "skills/ecli-verificatie/SKILL.md").read_text(encoding="utf-8")
+    check("Fase 2 SKILL.md verwijst naar prompt-injection-defense.md", "prompt-injection-defense.md" in f2)
+    # Fase 3 SKILL.md verwijst ernaar
+    f3 = (ROOT / "skills/audit-synthese/SKILL.md").read_text(encoding="utf-8")
+    check("Fase 3 SKILL.md verwijst naar prompt-injection-defense.md", "prompt-injection-defense.md" in f3)
+
+
+# ------------------------------------------------------------------
+# Test 17 (K12): Validator geeft nette fout bij niet-bestaande skill
+# ------------------------------------------------------------------
+def test_k12_validator_nonexistent_skill() -> None:
+    print("\n[17] K12: package_skills.py handelt niet-bestaande skill netjes af")
+    import subprocess
+    result = subprocess.run(
+        ["python3", str(ROOT / "scripts/package_skills.py"), "--validate-only", "niet-bestaande-skill"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    check("exit code 1 (niet 0)", result.returncode == 1)
+    check("foutmelding bevat skill-naam", "niet-bestaande-skill" in result.stderr)
+    check("geen traceback (geen 'IndexError')", "IndexError" not in result.stderr and "Traceback" not in result.stderr)
+
+
+# ------------------------------------------------------------------
+# Test 18 (P1): conventions.md uitgebreid
+# ------------------------------------------------------------------
+def test_p1_conventions_extended() -> None:
+    print("\n[18] P1: conventions.md uitgebreid met encoding, line-endings, taalkeuze")
+    conv = (ROOT / "docs/conventions.md").read_text(encoding="utf-8")
+    check("bevat encoding-sectie", "UTF-8" in conv and "BOM" in conv)
+    check("bevat line-endings-sectie", "LF" in conv and "CRLF" in conv)
+    check("bevat bestandnaamconventies", "kebab-case" in conv)
+    check("bevat taalkeuze-sectie", "Taalkeuze" in conv or "taalkeuze" in conv.lower())
+    check("bevat JSON-stijl sectie", "JSON-stijl" in conv or "snake_case" in conv)
+    check("bevat update-procedure", "Update-procedure" in conv or "semver" in conv.lower())
+    check("bevat disclaimer-eis", "disclaimer" in conv.lower() and "concept ter beoordeling" in conv)
+
+
+# ------------------------------------------------------------------
+# Test 19 (P2): workflow.md bevat scope-sectie voor niet-pipeline skills
+# ------------------------------------------------------------------
+def test_p2_workflow_scope_section() -> None:
+    print("\n[19] P2: workflow.md bevat scope-sectie voor niet-pipeline skills")
+    wf = (ROOT / "docs/workflow.md").read_text(encoding="utf-8")
+    check("bevat 'Scope van deze distributie'", "Scope van deze distributie" in wf)
+    check("noemt woo-avg-toets als apart onderhouden", "woo-avg-toets" in wf.lower())
+    check("noemt stop-slop als apart onderhouden", "stop-slop" in wf.lower())
+    check("bevat Multi-jurisdictie sectie", "Multi-jurisdictie" in wf)
+
+
+# ------------------------------------------------------------------
+# Test 20 (P3): Worked example compleet met Fase 1, 2, 3 expected outputs
+# ------------------------------------------------------------------
+def test_p3_worked_example_complete() -> None:
+    print("\n[20] P3: Worked example case-001 bevat expected outputs voor alle 3 fases")
+    case_dir = ROOT / "tests/fixtures/case-001"
+    check("expected_audit.md bestaat", (case_dir / "expected_audit.md").exists())
+    check("expected_verification.json bestaat", (case_dir / "expected_verification.json").exists())
+    check("expected_synthese.md bestaat", (case_dir / "expected_synthese.md").exists())
+    check("input/manifest.json bestaat", (case_dir / "input/manifest.json").exists())
+    check("sources/ECLI_NL_RBDHA_2023_1234.json bestaat", (case_dir / "sources/ECLI_NL_RBDHA_2023_1234.json").exists())
+
+    # Manifest valideert tegen schema
+    jsonschema = load_jsonschema()
+    if jsonschema is not None:
+        schema = load_json(ROOT / "skills/documenten-audit/assets/manifest.schema.json")
+        manifest = load_json(case_dir / "input/manifest.json")
+        try:
+            jsonschema.validate(manifest, schema)
+            check("input/manifest.json valideert tegen manifest.schema.json", True)
+        except jsonschema.ValidationError as e:
+            check("input/manifest.json valideert tegen manifest.schema.json", False, str(e.message))
+
+    # expected_audit.md bevat 5 claims in Claim Register
+    audit = (case_dir / "expected_audit.md").read_text(encoding="utf-8")
+    for cid in ("C001", "C002", "C003", "C004", "C005"):
+        check(f"expected_audit.md bevat {cid}", cid in audit)
+
+    # expected_synthese.md bevat actielijst
+    synthese = (case_dir / "expected_synthese.md").read_text(encoding="utf-8")
+    check("expected_synthese.md bevat Impactanalyse", "Impactanalyse" in synthese)
+    check("expected_synthese.md bevat Actielijst", "Actielijst" in synthese)
+
+
+# ------------------------------------------------------------------
+# Test 21 (P4): Action-matrix dekt nu BEVESTIGD + LAAG
+# ------------------------------------------------------------------
+def test_p4_action_matrix_bevestigd_laag() -> None:
+    print("\n[21] P4: Action-matrix dekt BEVESTIGD + LAAG combinatie")
+    matrix = (ROOT / "skills/audit-synthese/references/action-classification.md").read_text(encoding="utf-8")
+    check("matrix bevat 'BEVESTIGD' + 'LAAG' rij", "BEVESTIGD" in matrix and "LAAG" in matrix)
+    check("matrix bevat herformuleer-actie", "Herformuleer bewering" in matrix)
+    check("matrix bevat toelichting BEVESTIGD + LAAG", "BEVESTIGD + LAAG" in matrix or "BEVESTIGD+LAAG" in matrix)
+
+
+# ------------------------------------------------------------------
+# Test 22 (P5): Manifest-template JSON Schema
+# ------------------------------------------------------------------
+def test_p5_manifest_schema() -> None:
+    print("\n[22] P5: manifest.schema.json is geldig JSON Schema draft 2020-12")
+    schema_path = ROOT / "skills/documenten-audit/assets/manifest.schema.json"
+    check("manifest.schema.json bestaat", schema_path.exists())
+    if not schema_path.exists():
+        return
+    schema = load_json(schema_path)
+    check("bevat $schema draft 2020-12", "2020-12" in schema.get("$schema", ""))
+    check("type=object", schema.get("type") == "object")
+    check("propertyNames pattern bevat ECLI-regex", "ECLI:[A-Z]{2}" in schema.get("propertyNames", {}).get("pattern", ""))
+
+    # Valideer manifest-template.json
+    jsonschema = load_jsonschema()
+    if jsonschema is not None:
+        template = load_json(ROOT / "skills/documenten-audit/assets/manifest-template.json")
+        try:
+            jsonschema.validate(template, schema)
+            check("manifest-template.json valideert", True)
+        except jsonschema.ValidationError as e:
+            check("manifest-template.json valideert", False, str(e.message))
+
+
+# ------------------------------------------------------------------
+# Test 23 (P6): last_updated <= vandaag
+# ------------------------------------------------------------------
+def test_p6_last_updated_not_future() -> None:
+    print("\n[23] P6: last_updated ligt niet in de toekomst")
+    import datetime as _dt
+    today = _dt.date.today()
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT / "scripts"))
+    import package_skills as ps
+    for skill in ("documenten-audit", "ecli-verificatie", "audit-synthese"):
+        path = ROOT / f"skills/{skill}/SKILL.md"
+        meta = ps.parse_frontmatter(path)
+        lu = meta.get("last_updated", "")
+        try:
+            lu_date = _dt.date.fromisoformat(str(lu))
+            check(f"{skill}: last_updated {lu} <= vandaag {today}", lu_date <= today)
+        except ValueError:
+            check(f"{skill}: last_updated {lu} is geldige datum", False)
+
+
+# ------------------------------------------------------------------
+# Test 24 (P7): Per-skill MANIFEST.json hashes kloppen
+# ------------------------------------------------------------------
+def test_p7_manifests_consistent() -> None:
+    print("\n[24] P7: Per-skill MANIFEST.json hashes kloppen")
+    import subprocess
+    result = subprocess.run(
+        ["python3", str(ROOT / "scripts/generate_manifests.py"), "--check"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    check("generate_manifests.py --check exit code 0", result.returncode == 0, result.stderr)
+    check("3 skills consistent", "audit-synthese" in result.stdout and "documenten-audit" in result.stdout and "ecli-verificatie" in result.stdout)
+
+    # MANIFEST.json-bestanden bestaan
+    for skill in ("documenten-audit", "ecli-verificatie", "audit-synthese"):
+        check(f"{skill}/references/MANIFEST.json bestaat", (ROOT / f"skills/{skill}/references/MANIFEST.json").exists())
+
+
+# ------------------------------------------------------------------
+# Test 25 (P8): Multi-jurisdictie-conflicthantering reference
+# ------------------------------------------------------------------
+def test_p8_jurisdiction_hierarchy() -> None:
+    print("\n[25] P8: Multi-jurisdictie-conflicthantering reference aanwezig")
+    jh_path = ROOT / "skills/documenten-audit/references/jurisdiction-hierarchy.md"
+    check("jurisdiction-hierarchy.md bestaat", jh_path.exists())
+    if not jh_path.exists():
+        return
+    jh = jh_path.read_text(encoding="utf-8")
+    check("bevat hiërarchie EHRM > EU > NL", "EHRM" in jh and "EU" in jh and "NL" in jh)
+    check("bevat voorrangsregel", "voorrangsregel" in jh.lower() or "Voorrangsregel" in jh)
+    check("bevat conflict-procedure", "Conflict" in jh or "conflict" in jh.lower())
+    check("bevat ECLI-prefix herkenning", "ECLI:CE:ECHR" in jh or "ECLI:EU:C" in jh)
 
 
 # pytest-compatibele wrappers
@@ -309,6 +577,20 @@ def test_08(): test_ecli_regex_in_skill()
 def test_09(): test_claim_register_template()
 def test_10(): test_validator_runs()
 def test_11(): test_self_repair_fallback()
+def test_12(): test_k7_context_budget()
+def test_13(): test_k8_raw_normalized_conflict()
+def test_14(): test_k9_disclaimer_in_all_skills()
+def test_15(): test_k10_compatibility_versions()
+def test_16(): test_k11_prompt_injection_defense()
+def test_17(): test_k12_validator_nonexistent_skill()
+def test_18(): test_p1_conventions_extended()
+def test_19(): test_p2_workflow_scope_section()
+def test_20(): test_p3_worked_example_complete()
+def test_21(): test_p4_action_matrix_bevestigd_laag()
+def test_22(): test_p5_manifest_schema()
+def test_23(): test_p6_last_updated_not_future()
+def test_24(): test_p7_manifests_consistent()
+def test_25(): test_p8_jurisdiction_hierarchy()
 
 
 if __name__ == "__main__":

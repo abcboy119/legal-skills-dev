@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://juridische-skills.local/documenten-audit/manifest.schema.json",
+  "title": "Fase 1 manifest-template",
+  "description": "Mapping van ECLI naar pad van bronbestand, zoals geproduceerd in Stap 10 van documenten-audit en verbruikt in Fase 2 (ecli-verificatie). Zie assets/manifest-template.json voor een voorbeeld.",
+  "type": "object",
+  "additionalProperties": {
+    "type": "string",
+    "description": "Pad naar het bronbestand. Mag relatief (ten opzichte van de werkdirectory van Fase 2) of absoluut zijn. URI-schema's (file://, s3://, https://) zijn toegestaan.",
+    "minLength": 1
+  },
+  "minProperties": 0,
+  "propertyNames": {
+    "pattern": "^ECLI:[A-Z]{2}:[A-Z0-9]+:\\d{4}:[A-Za-z0-9.]+$",
+    "description": "Elke key moet een geldige ECLI zijn volgens de standaard regex. ECLI's met ongeldige syntaxis mogen NIET in het manifest opgenomen worden — zie references/ecli-format.md."
+  }
+}

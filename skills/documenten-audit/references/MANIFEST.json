@@ -1,0 +1,42 @@
+{
+  "skill": "documenten-audit",
+  "generated_at": "2026-07-20",
+  "files": [
+    {
+      "path": "references/agentic-file-parsing.md",
+      "sha256": "cfcf7ef6f6e588e2df7e6c28f9fcf21c9867a7c96cc4e9d21d239772a08cba04"
+    },
+    {
+      "path": "references/claim-register-schema.md",
+      "sha256": "14b0e65afa953a348f1ef82ea29b5055da88cdeda793d36748f8660d25cdc658"
+    },
+    {
+      "path": "references/ecli-format.md",
+      "sha256": "f2553f5d4eb7e3121a41859193b1229cb0caff56f81613ff0fe2bfb1a7f29830"
+    },
+    {
+      "path": "references/irac-rubric.md",
+      "sha256": "084cebf95cf25ecda11924fcae8ecd36de245996c9daf3c8a1b2e290f945b7b1"
+    },
+    {
+      "path": "references/jurisdiction-hierarchy.md",
+      "sha256": "35aefd7abd671bbc0a7a093bcd9332d525ee509f52c1f2ae1c21cb8e9483eb88"
+    },
+    {
+      "path": "references/prompt-injection-defense.md",
+      "sha256": "2f686dc754d4f77440b9a94886a292c1919810a2833350e7bb84c293de04babb"
+    },
+    {
+      "path": "assets/claim-register-template.md",
+      "sha256": "17bd421bc35999a1d1ced0efa7e2e18fa2f61bc66e4f4a21499b39b1772d65d4"
+    },
+    {
+      "path": "assets/manifest-template.json",
+      "sha256": "42fb0d8f08ad4d70d7032d120a6eb216351a24b53362303fdc5afba5270c0930"
+    },
+    {
+      "path": "assets/manifest.schema.json",
+      "sha256": "f7db28ad622ac955fd595d3f467075269005123b572b31ec7349edf311cfcab7"
+    }
+  ]
+}
