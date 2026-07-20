@@ -1408,7 +1408,7 @@ Expected: alle checks `PASS`.
 - [ ] **Step 5: Volledige suite draaien**
 
 Run: `python3 scripts/package_skills.py --validate-only && python3 tests/test_pipeline_contracts.py`
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 185: 173 + 12 nieuwe checks in test_q9). Geen manifest-regeneratie nodig — `tests/fixtures/` valt buiten de `references/`/`assets/`-scope van `generate_manifests.py`.
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 184: 173 + 11 nieuwe checks in test_q9 — de schema-validatiecheck heeft twee wederzijds exclusieve takes (succes/falen), dus loopt er per run maar één). Geen manifest-regeneratie nodig — `tests/fixtures/` valt buiten de `references/`/`assets/`-scope van `generate_manifests.py`.
 
 - [ ] **Step 6: Commit**
 
@@ -1505,7 +1505,7 @@ python3 scripts/generate_manifests.py --check
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `generate_manifests.py --check` → `3 skills consistent` (geen wijzigingen sinds de laatste per-taak-regeneraties, dus dit moet al kloppen); `package_skills.py --validate-only` → `3/3 skills valid.` (de nieuwe `version`/`last_updated`-waarden zijn geldig semver resp. niet in de toekomst); `test_pipeline_contracts.py` → `0 FAIL`, totaal **185 PASS** (144 origineel + 3+2+5+4+3+3+5+4+12 nieuwe checks uit test_q1 t/m test_q9).
+Expected: `generate_manifests.py --check` → `3 skills consistent` (geen wijzigingen sinds de laatste per-taak-regeneraties, dus dit moet al kloppen); `package_skills.py --validate-only` → `3/3 skills valid.` (de nieuwe `version`/`last_updated`-waarden zijn geldig semver resp. niet in de toekomst); `test_pipeline_contracts.py` → `0 FAIL`, totaal **184 PASS** (144 origineel + 3+2+5+4+3+3+5+4+11 nieuwe checks uit test_q1 t/m test_q9).
 
 - [ ] **Step 4: Commit**
 
