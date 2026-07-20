@@ -16,11 +16,11 @@
     },
     {
       "path": "references/irac-rubric.md",
-      "sha256": "084cebf95cf25ecda11924fcae8ecd36de245996c9daf3c8a1b2e290f945b7b1"
+      "sha256": "cd067ee83174eca40becfdc4819d0361896cbe523cfa861ab0ef0084bfcb6ced"
     },
     {
       "path": "references/jurisdiction-hierarchy.md",
-      "sha256": "35aefd7abd671bbc0a7a093bcd9332d525ee509f52c1f2ae1c21cb8e9483eb88"
+      "sha256": "ca7a000ed264c0109d601ea5ca3b0b42b16a569dd4abf699b2d64a82d8184ec3"
     },
     {
       "path": "references/prompt-injection-defense.md",
