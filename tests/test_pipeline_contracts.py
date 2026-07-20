@@ -312,6 +312,7 @@ def main() -> int:
     test_q5_jurisdictie_buiten_scope_fase1()
     test_q6_jurisdictie_buiten_scope_fase2()
     test_q7_brug_extern_ophaalscript()
+    test_q8_ecli_scanner_crosscheck()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -677,6 +678,23 @@ def test_q7_brug_extern_ophaalscript() -> None:
     check("source-handling.md noemt de items-array-vorm", "items" in sh)
 
 
+# ------------------------------------------------------------------
+# Test 33 (Q8): ECLI-scanner cross-check (optioneel) gedocumenteerd
+# ------------------------------------------------------------------
+def test_q8_ecli_scanner_crosscheck() -> None:
+    print("\n[33] Q8: ecli-scanner-crosscheck.md aanwezig en geraadpleegd in Stap 9")
+    cc_path = ROOT / "skills/documenten-audit/references/ecli-scanner-crosscheck.md"
+    check("ecli-scanner-crosscheck.md bestaat", cc_path.exists())
+    if not cc_path.exists():
+        return
+    cc = cc_path.read_text(encoding="utf-8")
+    check("bevat 'mogelijke hallucinatie'", "mogelijke hallucinatie" in cc.lower())
+    check("markeert de stap expliciet als optioneel", "Optioneel" in cc)
+    skill = (ROOT / "skills/documenten-audit/SKILL.md").read_text(encoding="utf-8")
+    check("SKILL.md Stap 9 verwijst naar ecli-scanner-crosscheck.md",
+          "ecli-scanner-crosscheck.md" in skill)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -710,6 +728,7 @@ def test_29(): test_q4_gerelateerde_claims()
 def test_30(): test_q5_jurisdictie_buiten_scope_fase1()
 def test_31(): test_q6_jurisdictie_buiten_scope_fase2()
 def test_32(): test_q7_brug_extern_ophaalscript()
+def test_33(): test_q8_ecli_scanner_crosscheck()
 
 
 if __name__ == "__main__":

@@ -19,6 +19,10 @@
       "sha256": "f2553f5d4eb7e3121a41859193b1229cb0caff56f81613ff0fe2bfb1a7f29830"
     },
     {
+      "path": "references/ecli-scanner-crosscheck.md",
+      "sha256": "78a422093048866d8351ba1a1aa99923d306177ac75295669b73792e913a166a"
+    },
+    {
       "path": "references/irac-rubric.md",
       "sha256": "cd067ee83174eca40becfdc4819d0361896cbe523cfa861ab0ef0084bfcb6ced"
     },

@@ -143,6 +143,8 @@ Om latere geautomatiseerde verificatie (ECLI-verificatie) mogelijk te maken, ext
 **ECLI-formaatcontrole (verplicht):** Controleer elke geëxtraheerde ECLI tegen de regex `^ECLI:[A-Z]{2}:[A-Z0-9]+:\d{4}:[A-Za-z0-9.]+$`. Bij ongeldige syntaxis: neem de string toch op (zodat de eindredacteur ziet wat er stond), maar zet `Extractie_Zekerheid = LAAG` en voeg in de kolom "Opmerking" de tekst: *"ECLI voldoet niet aan formaat — vermoedelijke typfout of hallucinatie."* Zie references/ecli-format.md voor voorbeelden van geldige en ongeldige ECLI's.
 
 Schema en kolomdefinities: references/claim-register-schema.md. Template: assets/claim-register-template.md.
+
+Optioneel: als scanner-output beschikbaar is, cross-check de extractie ertegen — zie references/ecli-scanner-crosscheck.md.
 </step>
 
 <step number="10" name="Manifest Template">
