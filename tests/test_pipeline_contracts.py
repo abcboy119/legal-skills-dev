@@ -307,6 +307,7 @@ def main() -> int:
     test_p8_jurisdiction_hierarchy()
     test_q1_fase2_stopt_bij_ontbrekend_claim_register()
     test_q2_fase3_stopt_bij_ongeldige_json()
+    test_q3_fase1_context_budget()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -601,6 +602,24 @@ def test_q2_fase3_stopt_bij_ongeldige_json() -> None:
           "output.schema.json" in skill)
 
 
+# ------------------------------------------------------------------
+# Test 28 (Q3): Context-budget-strategie voor Fase 1
+# ------------------------------------------------------------------
+def test_q3_fase1_context_budget() -> None:
+    print("\n[28] Q3: Fase 1 heeft een eigen context-budget-strategie")
+    cb_path = ROOT / "skills/documenten-audit/references/context-budget.md"
+    check("documenten-audit/references/context-budget.md bestaat", cb_path.exists())
+    if not cb_path.exists():
+        return
+    cb = cb_path.read_text(encoding="utf-8")
+    check("bevat batch-strategie", "batch" in cb.lower())
+    check("bevat consolidatie zonder Claim_ID-botsingen", "consolid" in cb.lower() and "Claim_ID" in cb)
+    check("is NIET simpelweg een kopie van Fase 2's context-budget.md",
+          "per-claim verificatie-venster" not in cb)
+    skill = (ROOT / "skills/documenten-audit/SKILL.md").read_text(encoding="utf-8")
+    check("SKILL.md verwijst naar references/context-budget.md", "references/context-budget.md" in skill)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -629,6 +648,7 @@ def test_24(): test_p7_manifests_consistent()
 def test_25(): test_p8_jurisdiction_hierarchy()
 def test_26(): test_q1_fase2_stopt_bij_ontbrekend_claim_register()
 def test_27(): test_q2_fase3_stopt_bij_ongeldige_json()
+def test_28(): test_q3_fase1_context_budget()
 
 
 if __name__ == "__main__":
