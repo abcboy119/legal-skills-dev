@@ -81,3 +81,15 @@ Als de auditor (LLM) niet zeker weet of er sprake is van een jurisdictieconflict
 - Vermeld in Stap 8 (Fase 1) als lacune dat jurisdictieanalyse nodig is.
 
 De LLM mag geen eigen rechtspraak-creatie doen — alleen vaststellen wat de bronnen zeggen en eventuele conflicten signaleren.
+
+## 7. Jurisdicties buiten deze distributie
+
+Deze skills ondersteunen uitsluitend `jurisdiction: NL,EU,EHRM`. Een ECLI met een landcode die niet `NL`, `EU` of `CE` (EHRM) is — bijvoorbeeld `ECLI:DE:BGH:2023:1234` (Duitsland) of `ECLI:FR:CCASS:2022:5678` (Frankrijk) — valt buiten deze scope.
+
+### Herkenning
+Controleer de landcode direct na `ECLI:` (het tweede segment). Alles behalve `NL`, `EU` en `CE` is buiten scope.
+
+### Afhandeling
+- **Fase 1 (documenten-audit)**: markeer in Stap 4 (Bronnenanalyse) dat de bron buiten de ondersteunde jurisdictie valt. Neem de ECLI toch op in het Claim Register (voor traceerbaarheid), met een opmerking "buiten ondersteunde jurisdictie (NL/EU/EHRM)".
+- **Fase 2 (ecli-verificatie)**: markeer het oordeel als `NIET_CONTROLEERBAAR` met toelichting "ECLI buiten scope van deze distributie (jurisdiction: NL,EU,EHRM)". Probeer niet alsnog te verifiëren volgens de NL/EU/EHRM-hiërarchie — die regels zijn niet op deze jurisdictie van toepassing.
+- **Fase 3 (audit-synthese)**: classificeer de actie conform de bestaande NIET_CONTROLEERBAAR-regels in `action-classification.md`.

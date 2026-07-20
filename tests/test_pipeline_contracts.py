@@ -309,6 +309,7 @@ def main() -> int:
     test_q2_fase3_stopt_bij_ongeldige_json()
     test_q3_fase1_context_budget()
     test_q4_gerelateerde_claims()
+    test_q5_jurisdictie_buiten_scope_fase1()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -635,6 +636,20 @@ def test_q4_gerelateerde_claims() -> None:
     check("SKILL.md Stap 9 noemt Gerelateerde_Claims", "Gerelateerde_Claims" in skill)
 
 
+# ------------------------------------------------------------------
+# Test 30 (Q5): Jurisdicties buiten NL/EU/EHRM — documenten-audit
+# ------------------------------------------------------------------
+def test_q5_jurisdictie_buiten_scope_fase1() -> None:
+    print("\n[30] Q5: jurisdiction-hierarchy.md dekt jurisdicties buiten NL/EU/EHRM")
+    jh = (ROOT / "skills/documenten-audit/references/jurisdiction-hierarchy.md").read_text(encoding="utf-8")
+    check("bevat sectie 'Jurisdicties buiten deze distributie'",
+          "Jurisdicties buiten deze distributie" in jh)
+    check("noemt een niet-ondersteund voorbeeld (DE of FR)",
+          "ECLI:DE:" in jh or "ECLI:FR:" in jh)
+    check("verwijst naar NIET_CONTROLEERBAAR voor deze gevallen",
+          "NIET_CONTROLEERBAAR" in jh)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -665,6 +680,7 @@ def test_26(): test_q1_fase2_stopt_bij_ontbrekend_claim_register()
 def test_27(): test_q2_fase3_stopt_bij_ongeldige_json()
 def test_28(): test_q3_fase1_context_budget()
 def test_29(): test_q4_gerelateerde_claims()
+def test_30(): test_q5_jurisdictie_buiten_scope_fase1()
 
 
 if __name__ == "__main__":

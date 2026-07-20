@@ -24,7 +24,7 @@
     },
     {
       "path": "references/jurisdiction-hierarchy.md",
-      "sha256": "ca7a000ed264c0109d601ea5ca3b0b42b16a569dd4abf699b2d64a82d8184ec3"
+      "sha256": "9fe7d18b5d5b55f74f921a266f935935c42aa083d4618b9227d23cd22bcaa3d5"
     },
     {
       "path": "references/prompt-injection-defense.md",
