@@ -314,6 +314,7 @@ def main() -> int:
     test_q7_brug_extern_ophaalscript()
     test_q8_ecli_scanner_crosscheck()
     test_q9_case002_bulk_modus()
+    test_schema_kopie_synchroon()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -737,6 +738,23 @@ def test_q9_case002_bulk_modus() -> None:
             check("case-002 expected_verification.json valideert tegen schema", False, str(e.message))
 
 
+# ------------------------------------------------------------------
+# Test 35: schema-kopie in audit-synthese blijft identiek aan het origineel
+# ------------------------------------------------------------------
+SCHEMA_COPY_PATH = ROOT / "skills/audit-synthese/assets/output.schema.json"
+
+
+def test_schema_kopie_synchroon() -> None:
+    print("\n[35] Schema-kopie: audit-synthese/assets/output.schema.json == ecli-verificatie-origineel")
+    check("kopie bestaat in audit-synthese/assets/", SCHEMA_COPY_PATH.exists())
+    if not SCHEMA_COPY_PATH.exists():
+        return
+    origineel = SCHEMA_PATH.read_bytes()
+    kopie = SCHEMA_COPY_PATH.read_bytes()
+    check("kopie is byte-identiek aan het origineel", origineel == kopie,
+          "wijzig het schema in ecli-verificatie en kopieer het naar audit-synthese (zie sync-checklist)")
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -772,6 +790,7 @@ def test_31(): test_q6_jurisdictie_buiten_scope_fase2()
 def test_32(): test_q7_brug_extern_ophaalscript()
 def test_33(): test_q8_ecli_scanner_crosscheck()
 def test_34(): test_q9_case002_bulk_modus()
+def test_35(): test_schema_kopie_synchroon()
 
 
 if __name__ == "__main__":

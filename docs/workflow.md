@@ -36,9 +36,15 @@ Elke skill is volledig zelfstandig (canonieke Anthropic structuur) opgebouwd:
 ### Fase 1: documenten-audit
 - `SKILL.md` (10 stappen, van documentoverzicht tot manifest generatie)
 - `references/irac-rubric.md` (Ankers voor kwaliteitsscore 1/3/5)
-- `references/claim-register-schema.md` (Kolomdefinities, Extractie_Zekerheid)
+- `references/claim-register-schema.md` (Kolomdefinities, Extractie_Zekerheid, Gerelateerde_Claims)
 - `references/agentic-file-parsing.md` (Hoe meerdere docs te scheiden)
+- `references/ecli-format.md` (Geldige/ongeldige ECLI-voorbeelden bij de regex-check)
+- `references/context-budget.md` (Batch-strategie bij veel of lange documenten)
+- `references/prompt-injection-defense.md` (Verdediging in diepte, 4 lagen)
+- `references/jurisdiction-hierarchy.md` (EHRM > EU > NL, conflictregels)
+- `references/ecli-scanner-crosscheck.md` (Optionele cross-check tegen scanner-output)
 - `assets/manifest-template.json` (JSON template voor Fase 2 input)
+- `assets/manifest.schema.json` (JSON Schema voor het manifest-template)
 - `assets/claim-register-template.md` (Markdown template voor output)
 
 ### Fase 2: ecli-verificatie
@@ -46,6 +52,8 @@ Elke skill is volledig zelfstandig (canonieke Anthropic structuur) opgebouwd:
 - `references/source-handling.md` (Manifest, raw vs normalized JSON, N/A afhandeling)
 - `references/judgment-definitions.md` (De 5 oordelen met voorbeelden)
 - `references/json-output-schema.md` (Velden, self-repair procedure, harde stop-regel)
+- `references/context-budget.md` (Per-claim venster, chunking, bulk-modus)
+- `assets/output.schema.json` (JSON Schema draft 2020-12, de 16 verplichte velden)
 - `assets/json-output-example.json` (Voorbeeld van verwachte output)
 
 ### Fase 3: audit-synthese
@@ -53,6 +61,9 @@ Elke skill is volledig zelfstandig (canonieke Anthropic structuur) opgebouwd:
 - `references/impact-analysis-rubric.md` (Classificatie van "Gecorrigeerde impact")
 - `references/action-classification.md` (Matrix: Oordeel + Extractie_Zekerheid -> Actie)
 - `assets/action-list-template.md` (Template voor de eindredacteur)
+- `assets/output.schema.json` (Kopie van het Fase 2-schema voor de 16-velden-check; wordt byte-identiek gehouden — zie sync-checklist)
+
+Daarnaast bevat elke skill een auto-gegenereerd `references/MANIFEST.json` (sha256-hashes, zie `docs/conventions.md` §8); dat bestand wordt niet mee-gepackaged.
 
 ---
 

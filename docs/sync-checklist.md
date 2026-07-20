@@ -20,6 +20,7 @@
 
 - [ ] **Contract-controle Fase 1 → Fase 2**: velden die `ecli-verificatie` uitleest uit het Claim Register staan nog in `documenten-audit/references/claim-register-schema.md`.
 - [ ] **Contract-controle Fase 2 → Fase 3**: velden die `audit-synthese` uitleest uit de JSON staan in `ecli-verificatie/references/json-output-schema.md` én in `ecli-verificatie/assets/output.schema.json`.
+- [ ] **Schema-kopie synchroon**: bij elke wijziging aan `ecli-verificatie/assets/output.schema.json` óók de kopie `audit-synthese/assets/output.schema.json` bijwerken (byte-identiek; de testsuite dwingt dit af) en het MANIFEST van audit-synthese regenereren.
 - [ ] **ECLI-afspraken consistent**: `"N/A"` (niet `""`) wordt gebruikt in Claim Register-schema, JSON-output-schema, én action-classification-matrix.
 - [ ] **`docs/workflow.md`** bevat nog steeds de actuele beschrijving van de pipeline.
 - [ ] **`docs/conventions.md`** weerspiegelt de werkelijke velden in frontmatter.
