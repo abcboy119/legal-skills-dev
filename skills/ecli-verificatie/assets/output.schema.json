@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://juridische-skills.local/ecli-verificatie/output.schema.json",
+  "$id": "https://legal-skills.local/ecli-verificatie/output.schema.json",
   "title": "ecli-verificatie output",
   "description": "JSON-array van claimverificaties zoals geproduceerd door Fase 2 van de juridische audit-pijplijn. Zie references/json-output-schema.md voor de mensgerichte documentatie.",
   "type": "array",
