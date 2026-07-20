@@ -5,8 +5,8 @@ description: >
   actielijst voor de juridische eindredacteur. Standaard aan te roepen via
   /audit-synthese of /synthese. Activeer ook bij 'wat betekent deze verificatie',
   'welke documenten moet ik herzien', of input van audit-markdown plus verificatie-JSON.
-version: 1.0.0
-last_updated: 2026-07-19
+version: 1.1.0
+last_updated: 2026-07-20
 author: Badr
 license: CC-BY-4.0
 jurisdiction: NL,EU,EHRM

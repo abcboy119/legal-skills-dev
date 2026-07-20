@@ -6,9 +6,9 @@ Drie juridische AI-skills in canonieke skill-structuur, geschikt voor Claude Cod
 
 | Skill | Doel | Versie |
 |---|---|---|
-| documenten-audit | Audit en vergelijk juridische documenten; IRAC-scores; Claim Register | 2.0.0 |
-| ecli-verificatie | Verifieer claims tegen rechterlijke uitspraken; pure JSON-output | 2.0.0 |
-| audit-synthese | Vertaal verificatie-JSON naar impactanalyse en actielijst | 1.0.0 |
+| documenten-audit | Audit en vergelijk juridische documenten; IRAC-scores; Claim Register | 2.1.0 |
+| ecli-verificatie | Verifieer claims tegen rechterlijke uitspraken; pure JSON-output | 2.1.0 |
+| audit-synthese | Vertaal verificatie-JSON naar impactanalyse en actielijst | 1.1.0 |
 
 De drie skills vormen een pipeline: `documenten-audit` -> `ecli-verificatie` -> `audit-synthese`. Zie `docs/workflow.md` voor de volledige workflow.
 

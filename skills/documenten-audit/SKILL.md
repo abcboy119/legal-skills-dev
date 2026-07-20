@@ -5,8 +5,8 @@ description: >
   en bereid een atomair Claim Register voor. Standaard aan te roepen via /audit of
   'documenten-audit'. Activeer ook bij vragen als 'analyseer deze documenten',
   'vergelijk deze adviezen', of 'wat is de sterkste juridische onderbouwing'.
-version: 2.0.0
-last_updated: 2026-07-19
+version: 2.1.0
+last_updated: 2026-07-20
 author: Badr
 license: CC-BY-4.0
 jurisdiction: NL,EU,EHRM
