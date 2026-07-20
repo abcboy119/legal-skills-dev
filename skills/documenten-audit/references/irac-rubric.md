@@ -11,7 +11,7 @@
 ## Tussenankers (2 en 4)
 
 - **2** = criterium is herkenbaar aanwezig, maar maximaal één van de vier IRAC-onderdelen (Issue, Rule, Application, Conclusion) is expliciet uitgewerkt; de overige zijn impliciet, vaag of niet onderling verbonden. Voorbeeld: er is een Issue gesteld, maar Rule en Application lopen in elkaar over zonder onderscheid, en de Conclusion ontbreekt of is puur herhalend.
-- **4** = alle vier de IRAC-onderdelen zijn aanwezig, maar één onderdeel is matig uitgewerkt (bijv. Application noemt de feiten maar koppelt ze niet expliciet aan de Rule), of de onderlingen zijn wel aanwezig maar niet volledig op elkaar aangesloten (zwakke skakel). Het document is bruikbaar maar niet direct toepasbaar zonder nadere redactionele werk.
+- **4** = alle vier de IRAC-onderdelen zijn aanwezig, maar één onderdeel is matig uitgewerkt (bijv. Application noemt de feiten maar koppelt ze niet expliciet aan de Rule), of de onderlingen zijn wel aanwezig maar niet volledig op elkaar aangesloten (zwakke schakel). Het document is bruikbaar maar niet direct toepasbaar zonder nadere redactionele werk.
 
 ## Score-matrix per IRAC-onderdeel
 
