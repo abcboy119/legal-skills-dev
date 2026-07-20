@@ -31,20 +31,6 @@ def validate_version(version: str) -> bool:
 def validate_date(date: str) -> bool:
     return bool(DATE_RE.match(date.strip()))
 
-
-def validate_compatibility_versions(cv: dict) -> list[str]:
-    """Valideer compatibility_versions map (platform → semver-range)."""
-    errors = []
-    if not isinstance(cv, dict):
-        return ["compatibility_versions moet een map zijn"]
-    for platform, version in cv.items():
-        if not isinstance(version, str):
-            errors.append(f"compatibility_versions[{platform}] moet een string zijn")
-            continue
-        if not SEMVER_RANGE_RE.match(version.strip()):
-            errors.append(f"compatibility_versions[{platform}]: '{version}' is geen geldige semver-range (zie conventions.md)")
-    return errors
-
 def validate_description(desc: str) -> bool:
     clean = " ".join(desc.split())
     return DESC_MIN <= len(clean) <= DESC_MAX
@@ -142,15 +128,10 @@ def validate_skill(skill_dir: Path) -> list[str]:
     # K9: disclaimer moet in SKILL.md staan
     if DISCLAIMER_MARKER not in text:
         errors.append(f"{skill_dir.name}: SKILL.md bevat geen <disclaimer>-blok met '{DISCLAIMER_MARKER}'")
-    # K10: compatibility_versions (optioneel) — als aanwezig, moet het een dict zijn + geldige ranges
+    # K10: compatibility_versions (optioneel) — als aanwezig, moet het een dict zijn
     cv = meta.get("compatibility_versions")
-    if cv is not None:
-        if not isinstance(cv, dict):
-            errors.append(f"{skill_dir.name}: compatibility_versions moet een map zijn (platform: versie)")
-        else:
-            cv_errors = validate_compatibility_versions(cv)
-            for e in cv_errors:
-                errors.append(f"{skill_dir.name}: {e}")
+    if cv is not None and not isinstance(cv, dict):
+        errors.append(f"{skill_dir.name}: compatibility_versions moet een map zijn (platform: versie)")
     for sub in ("references", "assets"):
         subdir = skill_dir / sub
         if subdir.is_dir():

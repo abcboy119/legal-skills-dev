@@ -1,20 +1,19 @@
 # Push deze repo naar GitHub/GitLab
 
-Deze map is een complete git-repo met 6 commits en 4 tags. Hieronder staat hoe je hem naar een remote pusht.
+Deze map is een complete git-repo met 5 commits en 4 tags. Hieronder staat hoe je hem naar een remote pusht.
 
 ## Wat zit erin
 
 ```
-6 commits op main branch:
+5 commits op main branch:
   ef3ddd6  v0: originele upload (pre-fixes)
   e677bd4  v1: Round 1 fixes (B1-B5 + K1 + K2)
   50a605a  v2: Round 2 fixes (K3-K6 + ecli_formaat_geldig)
   f49a02e  v3: Round 3 fixes (K7-K13 + P1-P8) — alle review-punten opgelost, 142/142 tests PASS
   f306d93  docs: push-instructies voor GitHub/GitLab (deze file)
-  e3d73dc  chore: hernoem repo-referenties + correcties in PUSH_INSTRUCTIONS
 ```
 
-Naast deze 6 commits op `main` zijn er 4 annotated tags die wijzen naar de eerste 4 commits:
+Naast deze 5 commits op `main` zijn er 4 annotated tags die wijzen naar de eerste 4 commits:
 
 ```
 v0-original      → ef3ddd6
@@ -23,7 +22,7 @@ v2-fixes-round2  → 50a605a
 v3-fixes-round3  → f49a02e
 ```
 
-> De laatste twee commits (PUSH_INSTRUCTIONS.md en de huidige) zijn niet getagd — dat is bewust, want deze commits bevatten alleen documentatie over de repo zelf, geen pipeline-wijzigingen.
+> De HEAD-commit (PUSH_INSTRUCTIONS.md) is niet getagd — dat is bewust, want deze commit bevat alleen documentatie over de repo zelf, geen pipeline-wijzigingen.
 
 Gebruik `git log --oneline` en `git tag` om de lijsten zelf te bekijken.
 

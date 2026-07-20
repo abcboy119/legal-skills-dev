@@ -40,12 +40,12 @@ In Fase 3 (audit-synthese):
 
 ### EHRM
 - EHRM-uitspraken zijn **reactief** — zij beoordelen of een lidstaat het EVRM heeft geschonden in een specifieke zaak.
-- Margin of appreciation: EHRM geeft lidstaten enige beoordelingsruimte. Een NL-uitspraak hoeft niet automatisch `TEGENGESPROKEN` te zijn als de EHRM een margin of appreciation toepast.
+- Margin of appreciation: EHRM geeft lidstaten enige beoordelingsruimte. Een NL-uitspraak hoeft niet automatisch `TEGENGESPROKEN` te zijn als de EHRM een margin of application toepast.
 - Pilot-judgment procedure: bij structurele problemen. Markeer in toelichting als een EHRM-uitspraak een pilot-judgment is.
 
 ### EU
 - HvJ EU prejudiciële uitspraken zijn **bindend** voor alle nationale rechters in de betrokken materie.
-- Voorrangsregel: EU-recht (verordeningen direct; richtlijnen na implementatie) gaat boven conflicterend nationaal recht.
+- Voorrangsregel: EU-recht (verordeningen direct; richtlijnen na implementatie) gaat boven con conflicterend nationaal recht.
 - HvJ EU-uitspraken hebben **retroactieve werking** in principe (de uitspraak verklaart wat het recht altijd al was).
 
 ### NL
@@ -66,7 +66,7 @@ In Fase 3 (audit-synthese):
 - **Claim**: "Langdurige detentie zonder toegang tot advocaat is toegestaan."
 - **Bron NL**: Hoge Raad bevestigt in specifieke zaak.
 - **Bron EHRM**: EHRM oordeelt dat dit in beginsel in strijd is met art. 6 EVRM, maar laat lidstaten enige beoordelingsruimte.
-- **Oordeel**: `GEDEELTELIJK` met toelichting: *"NL-bron bevestigt bewering binnen nationale context, maar EHRM nuanceert: margin of appreciation, niet absolute toestemming."*
+- **Oordeel**: `GEDEELTELIJK` met toelichting: *"NL-bron bevestigt bewering binnen nationale context, maar EHRM nuanceert: margin of application, niet absolute toestemming."*
 
 ### Voorbeeld 3: Prejudiciële vraag verkeerd geïnterpreteerd
 - **Claim**: "HvJ EU heeft bepaald dat X wettelijk is."
