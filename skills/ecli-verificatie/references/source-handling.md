@@ -31,6 +31,7 @@ Soms zijn voor één ECLI zowel de raw XML/HTML als een normalized JSON aangelev
 | Raw = 12 r.o.'s, normalized = 12 r.o.'s maar datum wijkt af | Verifieer in raw; toelichting: *"Datum-conflict tussen raw (2023-09-15) en normalized (2023-09-12) — raw genomen."* |
 
 ## Edge-cases
+- **Geen herkenbaar Claim Register** → stop direct vóór verificatie begint, meld dit expliciet (zie `<source_handling>` in SKILL.md). Ga niet door met giswerk.
 - **Twijfel over koppeling** → NIET_CONTROLEERBAAR.
 - **Bron leeg, onleesbaar, of incompleet** → NIET_CONTROLEERBAAR, tenzij passage ondubbelzinnig.
 - **ECLI = "N/A" in Claim Register** → direct NIET_CONTROLEERBAAR (geen zoekactie).

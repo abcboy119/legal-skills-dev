@@ -305,6 +305,7 @@ def main() -> int:
     test_p6_last_updated_not_future()
     test_p7_manifests_consistent()
     test_p8_jurisdiction_hierarchy()
+    test_q1_fase2_stopt_bij_ontbrekend_claim_register()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -572,6 +573,21 @@ def test_p8_jurisdiction_hierarchy() -> None:
     check("bevat ECLI-prefix herkenning", "ECLI:CE:ECHR" in jh or "ECLI:EU:C" in jh)
 
 
+# ------------------------------------------------------------------
+# Test 26 (Q1): Fase 2 stopt bij een ontbrekend Claim Register
+# ------------------------------------------------------------------
+def test_q1_fase2_stopt_bij_ontbrekend_claim_register() -> None:
+    print("\n[26] Q1: Fase 2 stopt bij een ontbrekend/onherkenbaar Claim Register")
+    skill = (ROOT / "skills/ecli-verificatie/SKILL.md").read_text(encoding="utf-8")
+    check("SKILL.md noemt 'Ontbrekend of onherkenbaar Claim Register'",
+          "Ontbrekend of onherkenbaar Claim Register" in skill)
+    check("SKILL.md bevat de exacte stopmelding",
+          "Geen herkenbaar Claim Register aangetroffen" in skill)
+    sh = (ROOT / "skills/ecli-verificatie/references/source-handling.md").read_text(encoding="utf-8")
+    check("source-handling.md noemt 'Geen herkenbaar Claim Register'",
+          "Geen herkenbaar Claim Register" in sh)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -598,6 +614,7 @@ def test_22(): test_p5_manifest_schema()
 def test_23(): test_p6_last_updated_not_future()
 def test_24(): test_p7_manifests_consistent()
 def test_25(): test_p8_jurisdiction_hierarchy()
+def test_26(): test_q1_fase2_stopt_bij_ontbrekend_claim_register()
 
 
 if __name__ == "__main__":
