@@ -75,7 +75,7 @@ De skills in deze distributie ondersteunen `jurisdiction: NL,EU,EHRM`. Bij confl
 
 ## 6. Externe hulpmiddelen (optioneel)
 
-Deze pijplijn kan optioneel worden aangevuld met externe, losstaande scripts. Deze scripts maken **geen deel uit** van deze distributie en worden niet meegepackage in de `.skill`-bestanden — het zijn hulpmiddelen die de gebruiker zelf, buiten de skill om, kan draaien tussen de fases.
+Deze pijplijn kan optioneel worden aangevuld met externe, losstaande scripts. Deze scripts maken **geen deel uit** van deze distributie en worden niet meegepackaged in de `.skill`-bestanden — het zijn hulpmiddelen die de gebruiker zelf, buiten de skill om, kan draaien tussen de fases.
 
 ### ECLI's ophalen tussen Fase 1 en Fase 2
 

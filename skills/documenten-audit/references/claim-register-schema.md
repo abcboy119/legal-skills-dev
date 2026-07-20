@@ -13,7 +13,7 @@
 | Bewering | string | Atomaire stelling — één duidelijke juridische claim per rij |
 | Extractie_Zekerheid | enum | `HOOG` / `MIDDEN` / `LAAG` |
 | Opmerking | string (optioneel) | Vrije tekst, bijv. opmerkingen over ECLI-formaat of extractie-twijfel |
-| Gerelateerde_Claims | string (optioneel) | Kommagescheiden lijst van andere Claim_ID's die dezelfde bewering onderbouwen met een andere ECLI (bijv. `C006, C007`) — zie §Meerdere ECLI's per claim hieronder |
+| Gerelateerde_Claims | string (optioneel) | Kommagescheiden lijst van andere Claim_ID's die dezelfde bewering onderbouwen met een andere ECLI (bijv. `C006, C007`) — zie §Meerdere ECLI's per claim — conventie hieronder |
 
 ## ECLI-formaat
 
