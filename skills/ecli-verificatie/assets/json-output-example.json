@@ -1,0 +1,18 @@
+[
+  {
+    "claim_id": "C001",
+    "doc_id": "Document 1",
+    "ecli": "ECLI:EU:C:2023:501",
+    "bron_aangeleverd": true,
+    "bronbestand": "pad/naar/ECLI_EU_C_2023_501.json",
+    "instantie": "Hof van Justitie EU",
+    "datum": "2023-06-22",
+    "rechtsgebied": "privacyrecht",
+    "bewering_analyse": "Loggegevens over raadplegingen vallen onder het inzagerecht van art. 15 AVG.",
+    "oordeel": "BEVESTIGD",
+    "vindplaats": "punt 40-45",
+    "broncitaat": "...",
+    "relevante_broninhoud": "HvJ EU bevestigt dat logbestanden onder het inzagerecht vallen.",
+    "toelichting": "Bewering volgt rechtstreeks uit het arrest."
+  }
+]
