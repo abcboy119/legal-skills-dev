@@ -376,7 +376,7 @@ def test_k10_compatibility_versions() -> None:
 # Test 16 (K11): Prompt-injectieverdediging reference + SKILL.md verwijzingen
 # ------------------------------------------------------------------
 def test_k11_prompt_injection_defense() -> None:
-    print("\n[16] K11: Prompt-injectieverdediging in Fase 1 en geraadpleegd in Fase 2/3")
+    print("\n[16] K11: Prompt-injectieverdediging in Fase 1 (referentie) + inline regel in Fase 2/3")
     pid_path = ROOT / "skills/documenten-audit/references/prompt-injection-defense.md"
     check("prompt-injection-defense.md bestaat", pid_path.exists())
     if not pid_path.exists():
@@ -387,15 +387,22 @@ def test_k11_prompt_injection_defense() -> None:
     check("noemt </step> als risico", "</step>" in pid)
     check("noemt --- als risico", "---" in pid)
 
-    # Fase 1 SKILL.md verwijst ernaar
+    # Fase 1 SKILL.md verwijst ernaar (documenten-audit bevat het referentiebestand zelf,
+    # dus dit pad blijft geldig ook als de skill los wordt gepackaged).
     f1 = (ROOT / "skills/documenten-audit/SKILL.md").read_text(encoding="utf-8")
     check("Fase 1 SKILL.md verwijst naar prompt-injection-defense.md", "prompt-injection-defense.md" in f1)
-    # Fase 2 SKILL.md verwijst ernaar
+
+    # Fase 2/3 bevatten GEEN cross-skill bestandsverwijzing meer: elke skill wordt los
+    # gepackaged (package_skills.py zipt alleen de eigen skill-map), dus een pad naar
+    # documenten-audit/references/... zou daar een dode link zijn. De inline
+    # prompt-injectie-regel blijft wel aanwezig in Fase 2/3 zelf.
     f2 = (ROOT / "skills/ecli-verificatie/SKILL.md").read_text(encoding="utf-8")
-    check("Fase 2 SKILL.md verwijst naar prompt-injection-defense.md", "prompt-injection-defense.md" in f2)
-    # Fase 3 SKILL.md verwijst ernaar
+    check("Fase 2 SKILL.md bevat geen dode cross-skill verwijzing", "prompt-injection-defense.md" not in f2)
+    check("Fase 2 SKILL.md bevat inline prompt-injectie-regel", "Prompt-injectie" in f2)
+
     f3 = (ROOT / "skills/audit-synthese/SKILL.md").read_text(encoding="utf-8")
-    check("Fase 3 SKILL.md verwijst naar prompt-injection-defense.md", "prompt-injection-defense.md" in f3)
+    check("Fase 3 SKILL.md bevat geen dode cross-skill verwijzing", "prompt-injection-defense.md" not in f3)
+    check("Fase 3 SKILL.md bevat inline prompt-injectie-regel", "Prompt-injectie" in f3)
 
 
 # ------------------------------------------------------------------
