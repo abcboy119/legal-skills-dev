@@ -310,6 +310,7 @@ def main() -> int:
     test_q3_fase1_context_budget()
     test_q4_gerelateerde_claims()
     test_q5_jurisdictie_buiten_scope_fase1()
+    test_q6_jurisdictie_buiten_scope_fase2()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -650,6 +651,17 @@ def test_q5_jurisdictie_buiten_scope_fase1() -> None:
           "NIET_CONTROLEERBAAR" in jh)
 
 
+# ------------------------------------------------------------------
+# Test 31 (Q6): Jurisdicties buiten NL/EU/EHRM — ecli-verificatie
+# ------------------------------------------------------------------
+def test_q6_jurisdictie_buiten_scope_fase2() -> None:
+    print("\n[31] Q6: source-handling.md dekt jurisdicties buiten NL/EU/EHRM")
+    sh = (ROOT / "skills/ecli-verificatie/references/source-handling.md").read_text(encoding="utf-8")
+    check("bevat 'buiten ondersteunde jurisdictie'", "buiten ondersteunde jurisdictie" in sh)
+    check("verwijst naar jurisdiction-hierarchy.md", "jurisdiction-hierarchy.md" in sh)
+    check("noemt de scope NL,EU,EHRM expliciet", "NL,EU,EHRM" in sh)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -681,6 +693,7 @@ def test_27(): test_q2_fase3_stopt_bij_ongeldige_json()
 def test_28(): test_q3_fase1_context_budget()
 def test_29(): test_q4_gerelateerde_claims()
 def test_30(): test_q5_jurisdictie_buiten_scope_fase1()
+def test_31(): test_q6_jurisdictie_buiten_scope_fase2()
 
 
 if __name__ == "__main__":

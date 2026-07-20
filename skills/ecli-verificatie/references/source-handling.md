@@ -36,4 +36,5 @@ Soms zijn voor één ECLI zowel de raw XML/HTML als een normalized JSON aangelev
 - **Bron leeg, onleesbaar, of incompleet** → NIET_CONTROLEERBAAR, tenzij passage ondubbelzinnig.
 - **ECLI = "N/A" in Claim Register** → direct NIET_CONTROLEERBAAR (geen zoekactie).
 - **ECLI ongeldig formaat** (bijv. `ECLI:NL:HR:23:1`) → `ecli_formaat_geldig: false` en NIET_CONTROLEERBAAR met toelichting. Zie `references/ecli-format.md` in `documenten-audit`.
+- **ECLI buiten ondersteunde jurisdictie** (landcode niet `NL`, `EU` of `CE`) → `NIET_CONTROLEERBAAR` met toelichting "ECLI buiten scope van deze distributie (jurisdiction: NL,EU,EHRM)". Zie `jurisdiction-hierarchy.md` in `documenten-audit`.
 - **Bron groter dan context-budget** → pas chunking toe volgens `references/context-budget.md`.
