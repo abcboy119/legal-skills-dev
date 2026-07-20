@@ -149,7 +149,7 @@ python3 scripts/generate_manifests.py ecli-verificatie
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `✓ ecli-verificatie ... bestanden → ...`, `3/3 skills valid.`, en `0 FAIL` (totaal PASS-aantal is nu 145: 142 bestaand + 3 nieuwe checks in test_q1).
+Expected: `✓ ecli-verificatie ... bestanden → ...`, `3/3 skills valid.`, en `0 FAIL` (totaal PASS-aantal is nu 147: 144 bestaand + 3 nieuwe checks in test_q1).
 
 - [ ] **Step 6: Commit**
 
@@ -265,7 +265,7 @@ Expected:
 - [ ] **Step 5: Volledige suite draaien**
 
 Run: `python3 scripts/package_skills.py --validate-only && python3 tests/test_pipeline_contracts.py`
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 147: 145 + 2 nieuwe checks in test_q2). Geen manifest-regeneratie nodig — `audit-synthese/references/` en `assets/` zijn niet gewijzigd.
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 149: 147 + 2 nieuwe checks in test_q2). Geen manifest-regeneratie nodig — `audit-synthese/references/` en `assets/` zijn niet gewijzigd.
 
 - [ ] **Step 6: Commit**
 
@@ -417,7 +417,7 @@ python3 scripts/generate_manifests.py documenten-audit
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 152: 147 + 5 nieuwe checks in test_q3).
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 154: 149 + 5 nieuwe checks in test_q3).
 
 - [ ] **Step 6: Commit**
 
@@ -565,7 +565,7 @@ python3 scripts/generate_manifests.py documenten-audit
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 156: 152 + 4 nieuwe checks in test_q4).
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 158: 154 + 4 nieuwe checks in test_q4).
 
 - [ ] **Step 6: Commit**
 
@@ -697,7 +697,7 @@ python3 scripts/generate_manifests.py documenten-audit
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 159: 156 + 3 nieuwe checks in test_q5).
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 161: 158 + 3 nieuwe checks in test_q5).
 
 - [ ] **Step 6: Commit**
 
@@ -803,7 +803,7 @@ python3 scripts/generate_manifests.py ecli-verificatie
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 162: 159 + 3 nieuwe checks in test_q6).
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 164: 161 + 3 nieuwe checks in test_q6).
 
 - [ ] **Step 6: Commit**
 
@@ -960,7 +960,7 @@ python3 scripts/generate_manifests.py ecli-verificatie
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 167: 162 + 5 nieuwe checks in test_q7).
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 169: 164 + 5 nieuwe checks in test_q7).
 
 - [ ] **Step 6: Commit**
 
@@ -1097,7 +1097,7 @@ python3 scripts/generate_manifests.py documenten-audit
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 171: 167 + 4 nieuwe checks in test_q8).
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 173: 169 + 4 nieuwe checks in test_q8).
 
 - [ ] **Step 6: Commit**
 
@@ -1408,7 +1408,7 @@ Expected: alle checks `PASS`.
 - [ ] **Step 5: Volledige suite draaien**
 
 Run: `python3 scripts/package_skills.py --validate-only && python3 tests/test_pipeline_contracts.py`
-Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 183: 171 + 12 nieuwe checks in test_q9). Geen manifest-regeneratie nodig — `tests/fixtures/` valt buiten de `references/`/`assets/`-scope van `generate_manifests.py`.
+Expected: `3/3 skills valid.`, `0 FAIL` (totaal PASS-aantal is nu 185: 173 + 12 nieuwe checks in test_q9). Geen manifest-regeneratie nodig — `tests/fixtures/` valt buiten de `references/`/`assets/`-scope van `generate_manifests.py`.
 
 - [ ] **Step 6: Commit**
 
@@ -1505,7 +1505,7 @@ python3 scripts/generate_manifests.py --check
 python3 scripts/package_skills.py --validate-only
 python3 tests/test_pipeline_contracts.py
 ```
-Expected: `generate_manifests.py --check` → `3 skills consistent` (geen wijzigingen sinds de laatste per-taak-regeneraties, dus dit moet al kloppen); `package_skills.py --validate-only` → `3/3 skills valid.` (de nieuwe `version`/`last_updated`-waarden zijn geldig semver resp. niet in de toekomst); `test_pipeline_contracts.py` → `0 FAIL`, totaal **183 PASS** (142 origineel + 3+2+5+4+3+3+5+4+12 nieuwe checks uit test_q1 t/m test_q9).
+Expected: `generate_manifests.py --check` → `3 skills consistent` (geen wijzigingen sinds de laatste per-taak-regeneraties, dus dit moet al kloppen); `package_skills.py --validate-only` → `3/3 skills valid.` (de nieuwe `version`/`last_updated`-waarden zijn geldig semver resp. niet in de toekomst); `test_pipeline_contracts.py` → `0 FAIL`, totaal **185 PASS** (144 origineel + 3+2+5+4+3+3+5+4+12 nieuwe checks uit test_q1 t/m test_q9).
 
 - [ ] **Step 4: Commit**
 
