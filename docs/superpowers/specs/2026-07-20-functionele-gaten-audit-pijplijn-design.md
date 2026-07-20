@@ -1,6 +1,6 @@
 # Design: functionele gaten in de audit-pijplijn dichten
 
-**Status:** ontwerp goedgekeurd, implementatie nog te plannen
+**Status:** geïmplementeerd (versies 2.1.0/2.1.0/1.1.0 — zie CHANGELOG.md)
 **Datum:** 2026-07-20
 **Betrokken skills:** `documenten-audit` (2.0.0 → 2.1.0), `ecli-verificatie` (2.0.0 → 2.1.0), `audit-synthese` (1.0.0 → 1.1.0)
 

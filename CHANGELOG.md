@@ -1,6 +1,28 @@
 # Changelog
 
-Alle wijzigingen tussen `pipeline_review.zip` (originele upload) en `pipeline_review_fixed3.zip`.
+Wijzigingsgeschiedenis van de pijplijn. Oudste rondes onderaan (v1-v3 stammen uit de fase tussen `pipeline_review.zip` en `pipeline_review_fixed3.zip`).
+
+## v2.1.0 / 1.1.0 — Functionele-gaten-ronde (Q1-Q9) + housekeeping
+
+Versies: documenten-audit 2.1.0, ecli-verificatie 2.1.0, audit-synthese 1.1.0. Ontwerp: `docs/superpowers/specs/2026-07-20-functionele-gaten-audit-pijplijn-design.md`.
+
+### Functionele gaten gedicht (Q1-Q9)
+
+- **Q1/Q2 — Fail-fast in Fase 2 en 3**: Fase 2 stopt bij een ontbrekend of onherkenbaar Claim Register; Fase 3 stopt bij ongeldige of onvolledige verificatie-JSON (16-velden-check tegen `assets/output.schema.json`).
+- **Q3 — Context-budget-strategie voor Fase 1**: batch-strategie bij >~8 documenten of zeer lange documenten (`skills/documenten-audit/references/context-budget.md`).
+- **Q4 — Meerdere ECLI's per claim**: splitsen over meerdere rijen met koppeling via `Gerelateerde_Claims` (`references/claim-register-schema.md`).
+- **Q5/Q6 — Jurisdicties buiten NL/EU/EHRM**: expliciete afhandeling in beide skills in plaats van stilzwijgend overslaan.
+- **Q7 — Brug naar extern ECLI-ophaalscript**: gedocumenteerde aansluiting op `ecli_lookup_V10.py` (extern onderhouden toolkit).
+- **Q8 — ECLI-scanner cross-check**: optionele hallucinatie-detectie in Fase 1 (`references/ecli-scanner-crosscheck.md`).
+- **Q9 — Bulk-modus testdekking**: nieuwe fixture `tests/fixtures/case-002/` (meerdere claims per ECLI).
+
+### Housekeeping (clarity-audit)
+
+- `requirements.txt` toegevoegd (`jsonschema`) — de testsuite importeerde het zonder dat het ergens gedeclareerd stond.
+- `audit-synthese` is nu self-contained: eigen kopie van `assets/output.schema.json` in plaats van een verwijzing naar de sibling-skill (die niet mee-gepackaged werd).
+- `PUSH_INSTRUCTIONS.md` ontdaan van gehardcodeerde commit-hashes/tag-claims die niet meer klopten.
+- Stappenindex toegevoegd bovenaan de instructies van `documenten-audit/SKILL.md` (10 stappen in één oogopslag).
+- Testsuite gegroeid naar 34 testfuncties / 184 assertions (alles groen).
 
 ## v3 — Round 3 (K7-K13 + P1-P8)
 

@@ -41,6 +41,8 @@ Als de aangeleverde documenten geen juridische inhoud bevatten, meld dit direct 
 <instructions>
 Voer de volgende analyse uit en structureer je antwoord exact volgens de onderstaande genummerde stappen:
 
+**Stappenindex:** 1 Documentoverzicht · 2 Thematische analyse · 3 Vergelijkende inhoudsanalyse · 4 Bronnenanalyse · 5 Analyse van juridische standpunten · 6 Kwaliteitsscore per document · 7 Best onderbouwde antwoord · 8 Lacunes en vervolgstappen · 9 Claim Register · 10 Manifest Template
+
 <step number="1" name="Documentoverzicht">
 Maak een overzichtstabel met per document:
 - Documentnaam / ID
