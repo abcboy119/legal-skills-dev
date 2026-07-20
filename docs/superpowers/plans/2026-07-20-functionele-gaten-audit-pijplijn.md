@@ -20,7 +20,7 @@
 
 ---
 
-## Taak 1: Fase 2 stopt bij een ontbrekend Claim Register
+## Task 1: Fase 2 stopt bij een ontbrekend Claim Register
 
 **Files:**
 - Modify: `skills/ecli-verificatie/SKILL.md`
@@ -160,7 +160,7 @@ git commit -m "feat: Fase 2 stopt expliciet bij ontbrekend Claim Register"
 
 ---
 
-## Taak 2: Fase 3 stopt bij ongeldige verificatie-JSON
+## Task 2: Fase 3 stopt bij ongeldige verificatie-JSON
 
 **Files:**
 - Modify: `skills/audit-synthese/SKILL.md`
@@ -276,7 +276,7 @@ git commit -m "feat: Fase 3 stopt expliciet bij ongeldige verificatie-JSON"
 
 ---
 
-## Taak 3: Context-budget-strategie voor Fase 1
+## Task 3: Context-budget-strategie voor Fase 1
 
 **Files:**
 - Create: `skills/documenten-audit/references/context-budget.md`
@@ -428,7 +428,7 @@ git commit -m "feat: context-budget-strategie voor Fase 1 (veel/lange documenten
 
 ---
 
-## Taak 4: Gerelateerde_Claims-kolom voor meerdere ECLI's per claim
+## Task 4: Gerelateerde_Claims-kolom voor meerdere ECLI's per claim
 
 **Files:**
 - Modify: `skills/documenten-audit/references/claim-register-schema.md`
@@ -576,7 +576,7 @@ git commit -m "feat: conventie voor meerdere ECLI's per claim (Gerelateerde_Clai
 
 ---
 
-## Taak 5: Jurisdicties buiten NL/EU/EHRM — documenten-audit
+## Task 5: Jurisdicties buiten NL/EU/EHRM — documenten-audit
 
 **Files:**
 - Modify: `skills/documenten-audit/references/jurisdiction-hierarchy.md`
@@ -708,7 +708,7 @@ git commit -m "feat: jurisdicties buiten NL/EU/EHRM expliciet afgehandeld (docum
 
 ---
 
-## Taak 6: Jurisdicties buiten NL/EU/EHRM — ecli-verificatie
+## Task 6: Jurisdicties buiten NL/EU/EHRM — ecli-verificatie
 
 **Files:**
 - Modify: `skills/ecli-verificatie/references/source-handling.md`
@@ -814,7 +814,7 @@ git commit -m "feat: jurisdicties buiten NL/EU/EHRM expliciet afgehandeld (ecli-
 
 ---
 
-## Taak 7: Brug naar extern ECLI-ophaalscript (`ecli_lookup_V10.py`)
+## Task 7: Brug naar extern ECLI-ophaalscript (`ecli_lookup_V10.py`)
 
 **Files:**
 - Modify: `docs/workflow.md`
@@ -971,7 +971,7 @@ git commit -m "docs: brug naar extern ECLI-ophaalscript (ecli_lookup_V10.py) ged
 
 ---
 
-## Taak 8: ECLI-scanner cross-check (optioneel) in Fase 1
+## Task 8: ECLI-scanner cross-check (optioneel) in Fase 1
 
 **Files:**
 - Create: `skills/documenten-audit/references/ecli-scanner-crosscheck.md`
@@ -1108,7 +1108,7 @@ git commit -m "feat: optionele ECLI-scanner cross-check in Fase 1 (hallucinatie-
 
 ---
 
-## Taak 9: Bulk-modus testdekking (case-002 fixture)
+## Task 9: Bulk-modus testdekking (case-002 fixture)
 
 **Files:**
 - Create: `tests/fixtures/case-002/input/docs.md`
@@ -1419,7 +1419,7 @@ git commit -m "test: case-002 fixture voor bulk-modus (meerdere claims per ECLI)
 
 ---
 
-## Taak 10: Versiebumps en eindverificatie
+## Task 10: Versiebumps en eindverificatie
 
 **Files:**
 - Modify: `skills/documenten-audit/SKILL.md` (frontmatter)
