@@ -8,7 +8,7 @@
     },
     {
       "path": "references/claim-register-schema.md",
-      "sha256": "14b0e65afa953a348f1ef82ea29b5055da88cdeda793d36748f8660d25cdc658"
+      "sha256": "083049dd7117356d9e138b57d13e37fa9322c812b65b8d2106a4c13bf2be5a46"
     },
     {
       "path": "references/context-budget.md",
@@ -32,7 +32,7 @@
     },
     {
       "path": "assets/claim-register-template.md",
-      "sha256": "17bd421bc35999a1d1ced0efa7e2e18fa2f61bc66e4f4a21499b39b1772d65d4"
+      "sha256": "a36d21730579463b267b61df5d52f3d856bdc98953aa17b2bb5b8fe5bb719399"
     },
     {
       "path": "assets/manifest-template.json",

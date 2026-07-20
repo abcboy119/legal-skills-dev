@@ -308,6 +308,7 @@ def main() -> int:
     test_q1_fase2_stopt_bij_ontbrekend_claim_register()
     test_q2_fase3_stopt_bij_ongeldige_json()
     test_q3_fase1_context_budget()
+    test_q4_gerelateerde_claims()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -620,6 +621,20 @@ def test_q3_fase1_context_budget() -> None:
     check("SKILL.md verwijst naar references/context-budget.md", "references/context-budget.md" in skill)
 
 
+# ------------------------------------------------------------------
+# Test 29 (Q4): Gerelateerde_Claims-kolom voor meerdere ECLI's per claim
+# ------------------------------------------------------------------
+def test_q4_gerelateerde_claims() -> None:
+    print("\n[29] Q4: Gerelateerde_Claims-kolom voor meerdere ECLI's per claim")
+    schema = (ROOT / "skills/documenten-audit/references/claim-register-schema.md").read_text(encoding="utf-8")
+    check("schema noemt Gerelateerde_Claims-kolom", "Gerelateerde_Claims" in schema)
+    check("schema legt de conventie uit", "Meerdere ECLI's per claim" in schema)
+    template = (ROOT / "skills/documenten-audit/assets/claim-register-template.md").read_text(encoding="utf-8")
+    check("template bevat Gerelateerde_Claims-kolom in de header", "Gerelateerde_Claims" in template)
+    skill = (ROOT / "skills/documenten-audit/SKILL.md").read_text(encoding="utf-8")
+    check("SKILL.md Stap 9 noemt Gerelateerde_Claims", "Gerelateerde_Claims" in skill)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -649,6 +664,7 @@ def test_25(): test_p8_jurisdiction_hierarchy()
 def test_26(): test_q1_fase2_stopt_bij_ontbrekend_claim_register()
 def test_27(): test_q2_fase3_stopt_bij_ongeldige_json()
 def test_28(): test_q3_fase1_context_budget()
+def test_29(): test_q4_gerelateerde_claims()
 
 
 if __name__ == "__main__":

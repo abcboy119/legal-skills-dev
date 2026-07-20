@@ -138,6 +138,7 @@ Om latere geautomatiseerde verificatie (ECLI-verificatie) mogelijk te maken, ext
 - Neem uitsluitend ECLI's op die dragend zijn voor de kernconclusies (negeer bijzaak-vermeldingen).
 - Formuleer de bewering atomair (één duidelijke juridische stelling per claim).
 - Ook beweringen zonder bronverwijzing opnemen met ECLI = "N/A" — die krijgen in ecli-verificatie automatisch het oordeel NIET_CONTROLEERBAAR.
+- Als één bewering door meerdere ECLI's wordt onderbouwd, splits dan over meerdere rijen (zelfde Bewering-tekst, verschillende Claim_ID en ECLI) en koppel ze via de kolom Gerelateerde_Claims — zie references/claim-register-schema.md.
 
 **ECLI-formaatcontrole (verplicht):** Controleer elke geëxtraheerde ECLI tegen de regex `^ECLI:[A-Z]{2}:[A-Z0-9]+:\d{4}:[A-Za-z0-9.]+$`. Bij ongeldige syntaxis: neem de string toch op (zodat de eindredacteur ziet wat er stond), maar zet `Extractie_Zekerheid = LAAG` en voeg in de kolom "Opmerking" de tekst: *"ECLI voldoet niet aan formaat — vermoedelijke typfout of hallucinatie."* Zie references/ecli-format.md voor voorbeelden van geldige en ongeldige ECLI's.
 
