@@ -132,6 +132,8 @@ Om latere geautomatiseerde verificatie (ECLI-verificatie) mogelijk te maken, ext
 - Formuleer de bewering atomair (één duidelijke juridische stelling per claim).
 - Ook beweringen zonder bronverwijzing opnemen met ECLI = "N/A" — die krijgen in ecli-verificatie automatisch het oordeel NIET_CONTROLEERBAAR.
 
+**ECLI-formaatcontrole (verplicht):** Controleer elke geëxtraheerde ECLI tegen de regex `^ECLI:[A-Z]{2}:[A-Z0-9]+:\d{4}:[A-Za-z0-9.]+$`. Bij ongeldige syntaxis: neem de string toch op (zodat de eindredacteur ziet wat er stond), maar zet `Extractie_Zekerheid = LAAG` en voeg in de kolom "Opmerking" de tekst: *"ECLI voldoet niet aan formaat — vermoedelijke typfout of hallucinatie."* Zie references/ecli-format.md voor voorbeelden van geldige en ongeldige ECLI's.
+
 Schema en kolomdefinities: references/claim-register-schema.md. Template: assets/claim-register-template.md.
 </step>
 

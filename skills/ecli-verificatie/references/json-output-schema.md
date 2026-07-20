@@ -8,7 +8,8 @@
 |---|---|---|
 | claim_id | string | uit Claim Register (C001) |
 | doc_id | string | uit Claim Register (Document 1) |
-| ecli | string | ECLI, of exact `"N/A"` wanneer er geen ECLI is gekoppeld |
+| ecli | string | ECLI zoals overgenomen uit het Claim Register (kan ongeldige syntaxis bevatten), of exact `"N/A"` |
+| ecli_formaat_geldig | boolean | `true` als de `ecli` voldoet aan regex `^ECLI:[A-Z]{2}:[A-Z0-9]+:\d{4}:[A-Za-z0-9.]+$`; `false` bij ongeldige syntaxis of bij `ecli = "N/A"` |
 | extractie_zekerheid | enum | `HOOG` / `MIDDEN` / `LAAG` — overgenomen uit het Claim Register |
 | bron_aangeleverd | boolean | true/false |
 | bronbestand | string | pad/bestandsnaam of `""` |
@@ -24,7 +25,9 @@
 
 ## Conventies voor lege / ontbrekende waarden
 
-- Geen ECLI gekoppeld → `ecli: "N/A"` (geen lege string). Fase 3 (`audit-synthese`) checkt op de string `"N/A"` om de juiste actie-classificatie te kiezen.
+- Geen ECLI gekoppeld → `ecli: "N/A"` en `ecli_formaat_geldig: false` (geen lege string). Fase 3 (`audit-synthese`) checkt op de string `"N/A"` om de juiste actie-classificatie te kiezen.
+- Ongeldige ECLI-syntax (bijv. `ECLI:NL:HR:23:1`) → neem de string toch op in `ecli` (traceerbaarheid voor eindredacteur), zet `ecli_formaat_geldig: false`, en gebruik oordeel `NIET_CONTROLEERBAAR` met toelichting waarin het formaatprobleem wordt benoemd.
+- Geldige ECLI → `ecli` is de string, `ecli_formaat_geldig: true`.
 - Ontbrekend bronbestand → `bronbestand: ""` (lege string).
 - `extractie_zekerheid` is verplicht — kopieer het uit het Claim Register; verzin nooit zelf een waarde.
 
@@ -38,11 +41,12 @@ Voordat je het JSON-codeblok output, doorloop je **in twee passes** de volgende 
 3. Heeft de laatste entry geen trailing comma?
 
 ### Pass 2 — semantisch
-4. Heeft elke entry alle 15 verplichte velden uit het schema?
+4. Heeft elke entry alle 16 verplichte velden uit het schema?
 5. Heeft elke `oordeel`-waarde één van de vijf toegestane enum-waarden?
 6. Heeft elke `extractie_zekerheid`-waarde `HOOG`, `MIDDEN` of `LAAG`?
-7. Is elke `ecli`-waarde ofwel een geldige ECLI, ofwel exact `"N/A"`?
-8. Komt elke `claim_id` exact overeen met een claim_id uit het aangeleverde Claim Register (geen nieuwe, geen missende)?
+7. Is elke `ecli`-waarde ofwel een niet-lege string, ofwel exact `"N/A"`?
+8. Is `ecli_formaat_geldig` consistent met `ecli`? (`true` als en alleen als `ecli` voldoet aan de regex `^ECLI:[A-Z]{2}:[A-Z0-9]+:\d{4}:[A-Za-z0-9.]+$`.)
+9. Komt elke `claim_id` exact overeen met een claim_id uit het aangeleverde Claim Register (geen nieuwe, geen missende)?
 
 ### Fallback bij falen
 
@@ -54,6 +58,7 @@ Als Pass 1 of Pass 2 faalt na maximaal twee interne herschrijf-pogingen, output 
     "claim_id": "_error",
     "doc_id": "_error",
     "ecli": "N/A",
+    "ecli_formaat_geldig": false,
     "extractie_zekerheid": "LAAG",
     "bron_aangeleverd": false,
     "bronbestand": "",

@@ -12,6 +12,7 @@
       "claim_id",
       "doc_id",
       "ecli",
+      "ecli_formaat_geldig",
       "extractie_zekerheid",
       "bron_aangeleverd",
       "bronbestand",
@@ -38,8 +39,12 @@
       },
       "ecli": {
         "type": "string",
-        "description": "ECLI van de bronuitspraak, of exact 'N/A' wanneer de claim geen ECLI had.",
-        "pattern": "^(ECLI:[A-Z]{2}:[A-Z0-9]+:\\d{4}:[A-Za-z0-9.]+|N/A)$"
+        "description": "ECLI van de bronuitspraak zoals overgenomen uit het Claim Register (kan ongeldige syntaxis bevatten — zie ecli_formaat_geldig), of exact 'N/A' wanneer de claim geen ECLI had.",
+        "minLength": 1
+      },
+      "ecli_formaat_geldig": {
+        "type": "boolean",
+        "description": "true als de ecli-waarde voldoet aan de ECLI-regex ^ECLI:[A-Z]{2}:[A-Z0-9]+:\\d{4}:[A-Za-z0-9.]+$, anders false. Voor ecli='N/A' is deze waarde false."
       },
       "extractie_zekerheid": {
         "type": "string",
