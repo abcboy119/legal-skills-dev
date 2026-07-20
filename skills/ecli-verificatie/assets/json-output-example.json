@@ -3,6 +3,7 @@
     "claim_id": "C001",
     "doc_id": "Document 1",
     "ecli": "ECLI:EU:C:2023:501",
+    "extractie_zekerheid": "HOOG",
     "bron_aangeleverd": true,
     "bronbestand": "pad/naar/ECLI_EU_C_2023_501.json",
     "instantie": "Hof van Justitie EU",
@@ -14,5 +15,22 @@
     "broncitaat": "...",
     "relevante_broninhoud": "HvJ EU bevestigt dat logbestanden onder het inzagerecht vallen.",
     "toelichting": "Bewering volgt rechtstreeks uit het arrest."
+  },
+  {
+    "claim_id": "C002",
+    "doc_id": "Document 1",
+    "ecli": "N/A",
+    "extractie_zekerheid": "LAAG",
+    "bron_aangeleverd": false,
+    "bronbestand": "",
+    "instantie": "",
+    "datum": "",
+    "rechtsgebied": "",
+    "bewering_analyse": "Woo-verzoeken moeten binnen vier weken worden beantwoord.",
+    "oordeel": "NIET_CONTROLEERBAAR",
+    "vindplaats": "",
+    "broncitaat": "",
+    "relevante_broninhoud": "",
+    "toelichting": "Geen ECLI gekoppeld in audit; niet verifieerbaar."
   }
 ]

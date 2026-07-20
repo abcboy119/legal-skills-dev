@@ -8,7 +8,7 @@ import sys
 import zipfile
 from pathlib import Path
 
-REQUIRED_FIELDS = ("name", "description", "version", "last_updated", "author", "license", "jurisdiction", "compatibility")
+REQUIRED_FIELDS = ("name", "description", "version", "last_updated", "author", "license", "jurisdiction", "compatibility", "source")
 DESC_MIN = 30
 DESC_MAX = 500
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")
