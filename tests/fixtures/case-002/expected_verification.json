@@ -1,0 +1,38 @@
+[
+  {
+    "claim_id": "C001",
+    "doc_id": "Document 1",
+    "ecli": "ECLI:NL:CRVB:2024:501",
+    "ecli_formaat_geldig": true,
+    "extractie_zekerheid": "HOOG",
+    "bron_aangeleverd": true,
+    "bronbestand": "sources/ECLI_NL_CRVB_2024_501.json",
+    "instantie": "Centrale Raad van Beroep",
+    "datum": "2024-03-20",
+    "rechtsgebied": "socialezekerheidsrecht",
+    "bewering_analyse": "Bij ziekte, onderbouwd met medische verklaring, moet het UWV de sollicitatieplicht opschorten.",
+    "oordeel": "BEVESTIGD",
+    "vindplaats": "overweging 1",
+    "broncitaat": "De Raad overweegt dat het UWV de sollicitatieplicht dient op te schorten indien de uitkeringsgerechtigde door ziekte aantoonbaar niet in staat is te solliciteren, mits onderbouwd met een medische verklaring van een arts.",
+    "relevante_broninhoud": "De Raad bevestigt dat ziekte met medische verklaring een opschortingsgrond is.",
+    "toelichting": "Bewering volgt direct uit de uitspraak."
+  },
+  {
+    "claim_id": "C002",
+    "doc_id": "Document 2",
+    "ecli": "ECLI:NL:CRVB:2024:501",
+    "ecli_formaat_geldig": true,
+    "extractie_zekerheid": "MIDDEN",
+    "bron_aangeleverd": true,
+    "bronbestand": "sources/ECLI_NL_CRVB_2024_501.json",
+    "instantie": "Centrale Raad van Beroep",
+    "datum": "2024-03-20",
+    "rechtsgebied": "socialezekerheidsrecht",
+    "bewering_analyse": "Het UWV mag de sollicitatieplicht ook opschorten om andere redenen dan ziekte, zoals mantelzorg.",
+    "oordeel": "TEGENGESPROKEN",
+    "vindplaats": "overweging 1",
+    "broncitaat": "andere persoonlijke omstandigheden, zoals mantelzorgverplichtingen, rechtvaardigen naar het oordeel van de Raad geen opschorting van de sollicitatieplicht.",
+    "relevante_broninhoud": "De Raad sluit mantelzorg expliciet uit als opschortingsgrond.",
+    "toelichting": "Zie ook C001 voor context over dezelfde uitspraak — de Raad beperkt de uitzondering uitdrukkelijk tot medische gronden, dus mantelzorg wordt expliciet tegengesproken als grond."
+  }
+]

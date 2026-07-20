@@ -313,6 +313,7 @@ def main() -> int:
     test_q6_jurisdictie_buiten_scope_fase2()
     test_q7_brug_extern_ophaalscript()
     test_q8_ecli_scanner_crosscheck()
+    test_q9_case002_bulk_modus()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -695,6 +696,47 @@ def test_q8_ecli_scanner_crosscheck() -> None:
           "ecli-scanner-crosscheck.md" in skill)
 
 
+# ------------------------------------------------------------------
+# Test 34 (Q9): case-002 — bulk-modus (meerdere claims per ECLI)
+# ------------------------------------------------------------------
+CASE002_DIR = ROOT / "tests/fixtures/case-002"
+
+
+def test_q9_case002_bulk_modus() -> None:
+    print("\n[34] Q9: case-002 test bulk-modus (meerdere claims aan dezelfde ECLI)")
+    check("case-002/input/docs.md bestaat", (CASE002_DIR / "input/docs.md").exists())
+    check("case-002/input/manifest.json bestaat", (CASE002_DIR / "input/manifest.json").exists())
+    check("case-002/expected_audit.md bestaat", (CASE002_DIR / "expected_audit.md").exists())
+    check("case-002/expected_verification.json bestaat", (CASE002_DIR / "expected_verification.json").exists())
+    check("case-002/expected_synthese.md bestaat", (CASE002_DIR / "expected_synthese.md").exists())
+    check("case-002/README.md bestaat", (CASE002_DIR / "README.md").exists())
+
+    expected_path = CASE002_DIR / "expected_verification.json"
+    if not expected_path.exists():
+        return
+    expected = load_json(expected_path)
+    check("case-002 heeft minstens 2 entries", len(expected) >= 2, f"got {len(expected)}")
+
+    eclis = {e["ecli"] for e in expected}
+    check("alle entries delen dezelfde ECLI (bulk-modus)", len(eclis) == 1, f"got {eclis}")
+
+    oordelen = {e["claim_id"]: e["oordeel"] for e in expected}
+    check("oordelen verschillen tussen de claims (niet allemaal identiek)",
+          len(set(oordelen.values())) > 1, f"got {oordelen}")
+
+    check("C002's toelichting verwijst naar C001 (context-budget.md §4: bulk-modus cross-reference)",
+          len(expected) > 1 and "C001" in expected[1].get("toelichting", ""))
+
+    jsonschema = load_jsonschema()
+    if jsonschema is not None:
+        schema = load_json(SCHEMA_PATH)
+        try:
+            jsonschema.validate(expected, schema)
+            check("case-002 expected_verification.json valideert tegen schema", True)
+        except jsonschema.ValidationError as e:
+            check("case-002 expected_verification.json valideert tegen schema", False, str(e.message))
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -729,6 +771,7 @@ def test_30(): test_q5_jurisdictie_buiten_scope_fase1()
 def test_31(): test_q6_jurisdictie_buiten_scope_fase2()
 def test_32(): test_q7_brug_extern_ophaalscript()
 def test_33(): test_q8_ecli_scanner_crosscheck()
+def test_34(): test_q9_case002_bulk_modus()
 
 
 if __name__ == "__main__":
