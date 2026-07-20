@@ -306,6 +306,7 @@ def main() -> int:
     test_p7_manifests_consistent()
     test_p8_jurisdiction_hierarchy()
     test_q1_fase2_stopt_bij_ontbrekend_claim_register()
+    test_q2_fase3_stopt_bij_ongeldige_json()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -588,6 +589,18 @@ def test_q1_fase2_stopt_bij_ontbrekend_claim_register() -> None:
           "Geen herkenbaar Claim Register" in sh)
 
 
+# ------------------------------------------------------------------
+# Test 27 (Q2): Fase 3 stopt bij ongeldige/onvolledige verificatie-JSON
+# ------------------------------------------------------------------
+def test_q2_fase3_stopt_bij_ongeldige_json() -> None:
+    print("\n[27] Q2: Fase 3 stopt bij ongeldige of onvolledige verificatie-JSON")
+    skill = (ROOT / "skills/audit-synthese/SKILL.md").read_text(encoding="utf-8")
+    check("SKILL.md noemt 'Ongeldige of onvolledige verificatie-JSON'",
+          "Ongeldige of onvolledige verificatie-JSON" in skill)
+    check("SKILL.md verwijst naar output.schema.json",
+          "output.schema.json" in skill)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -615,6 +628,7 @@ def test_23(): test_p6_last_updated_not_future()
 def test_24(): test_p7_manifests_consistent()
 def test_25(): test_p8_jurisdiction_hierarchy()
 def test_26(): test_q1_fase2_stopt_bij_ontbrekend_claim_register()
+def test_27(): test_q2_fase3_stopt_bij_ongeldige_json()
 
 
 if __name__ == "__main__":
