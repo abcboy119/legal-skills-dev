@@ -1,31 +1,15 @@
 # Push deze repo naar GitHub/GitLab
 
-Deze map is een complete git-repo met 6 commits en 4 tags. Hieronder staat hoe je hem naar een remote pusht.
+Deze map is een complete git-repo. Hieronder staat hoe je hem naar een remote pusht.
 
 ## Wat zit erin
 
-```
-6 commits op main branch:
-  ef3ddd6  v0: originele upload (pre-fixes)
-  e677bd4  v1: Round 1 fixes (B1-B5 + K1 + K2)
-  50a605a  v2: Round 2 fixes (K3-K6 + ecli_formaat_geldig)
-  f49a02e  v3: Round 3 fixes (K7-K13 + P1-P8) — alle review-punten opgelost, 142/142 tests PASS
-  f306d93  docs: push-instructies voor GitHub/GitLab (deze file)
-  e3d73dc  chore: hernoem repo-referenties + correcties in PUSH_INSTRUCTIONS
-```
+De commit- en tag-geschiedenis groeit met elke ronde fixes, dus deze file houdt geen vaste aantallen of hashes bij (die raken meteen verouderd). Bekijk de actuele staat zelf voordat je pusht:
 
-Naast deze 6 commits op `main` zijn er 4 annotated tags die wijzen naar de eerste 4 commits:
-
+```bash
+git log --oneline   # volledige commit-geschiedenis
+git tag             # bestaande tags (kan leeg zijn — dat is normaal, tags zijn optioneel)
 ```
-v0-original      → ef3ddd6
-v1-fixes-round1  → e677bd4
-v2-fixes-round2  → 50a605a
-v3-fixes-round3  → f49a02e
-```
-
-> De laatste twee commits (PUSH_INSTRUCTIONS.md en de huidige) zijn niet getagd — dat is bewust, want deze commits bevatten alleen documentatie over de repo zelf, geen pipeline-wijzigingen.
-
-Gebruik `git log --oneline` en `git tag` om de lijsten zelf te bekijken.
 
 ## Stap 1 — Maak een lege remote aan
 
@@ -63,29 +47,25 @@ python3 scripts/generate_manifests.py --check
 python3 tests/test_pipeline_contracts.py
 ```
 
-Als één van deze faalt, pas de bestanden dan eerst aan. Als alles groen is (3/3 skills valid, 3/3 manifests consistent, 142/142 tests PASS), ben je zeker dat je geen broken repo publiceert.
+Als één van deze faalt, pas de bestanden dan eerst aan. Als alles groen is (3/3 skills valid, 3/3 manifests consistent, alle tests PASS), ben je zeker dat je geen broken repo publiceert.
 
-## Stap 3 — Push main én alle tags
+## Stap 3 — Push main én eventuele tags
 
 ```bash
 git push -u origin main --tags
 ```
 
-Dat commando duwt:
-- De `main` branch met alle 5 commits.
-- Alle 4 annotated tags (`v0-original`, `v1-fixes-round1`, `v2-fixes-round2`, `v3-fixes-round3`).
-
-`-u` zet `origin/main` als upstream, zodat je daarna alleen `git push` hoeft te typen.
+Dat commando duwt de `main` branch plus alle lokale tags (als je die hebt aangemaakt — zie Stap 5). `-u` zet `origin/main` als upstream, zodat je daarna alleen `git push` hoeft te typen.
 
 ## Stap 4 — Verifieer op GitHub/GitLab
 
 Open de repo in je browser. Je zou moeten zien:
 
-- Op de hoofdpagina: alle v3-bestanden plus `PUSH_INSTRUCTIONS.md` (laatste commit op main).
-- Onder "Commits": 5 commits met de beschrijvende berichten.
-- Onder "Tags": 4 tags, klikbaar voor een release-pagina.
+- Op de hoofdpagina: de laatste stand van de bestanden plus de meest recente commit.
+- Onder "Commits": dezelfde geschiedenis als lokale `git log --oneline`.
+- Onder "Tags": alleen zichtbaar als je zelf tags hebt aangemaakt en gepusht.
 
-Optioneel: zet op GitHub onder "Releases" per tag een titel + release notes. Je kunt de corresponderende sectie uit `CHANGELOG.md` kopiëren als release description — dat geeft een mooie publieke changelog per versie.
+Optioneel: zet op GitHub onder "Releases" per tag (indien aanwezig) een titel + release notes. Je kunt de corresponderende sectie uit `CHANGELOG.md` kopiëren als release description — dat geeft een mooie publieke changelog per versie.
 
 ## Stap 5 — (Optioneel) Author info corrigeren
 
@@ -106,23 +86,16 @@ git config user.name "Your Name"
 git rebase --root --exec "git commit --amend --reset-author --no-edit"
 ```
 
-Dit werkt in één keer voor alle 5 commits, zonder interactieve editor. **Let op:** de commit-hashes veranderen hierdoor. De 4 tags wijzen nog naar de oude hashes en worden niet automatisch meegenomen. Je moet ze opnieuw zetten:
+Dit herschrijft **alle** commits vanaf de root, zonder interactieve editor. **Let op:** de commit-hashes veranderen hierdoor. Als je al tags had gezet (`git tag`), wijzen die nog naar de oude hashes en worden niet automatisch meegenomen — je moet ze opnieuw zetten met `git tag -f -a <naam> <nieuwe-hash> -m "<boodschap>"` voor elke bestaande tag. Verifieer met:
 
 ```bash
-# Vervang tags naar de nieuwe hashes (v0=HEAD~4, v1=HEAD~3, v2=HEAD~2, v3=HEAD~1)
-git tag -f -a v0-original     HEAD~4 -m "Originele upload zoals ontvangen"
-git tag -f -a v1-fixes-round1 HEAD~3 -m "Round 1: B1-B5 + K1 + K2"
-git tag -f -a v2-fixes-round2 HEAD~2 -m "Round 2: K3-K6 + ecli_formaat_geldig"
-git tag -f -a v3-fixes-round3 HEAD~1 -m "Round 3: K7-K13 + P1-P8 - alle review-punten opgelost"
-
-# Verifieer
 git log --oneline
 git tag
 ```
 
-Daarna gewoon `git push -u origin main --tags`.
+Daarna gewoon `git push -u origin main --tags` (voeg `-f` toe voor tags als je bestaande tags op de remote overschrijft).
 
-> Alternatief voor geavanceerde gebruikers: `git filter-repo --mailmap mailmap.txt` of `git filter-branch`. Maar de rebase-methode hierboven is robuust genoeg voor 5 commits.
+> Alternatief voor geavanceerde gebruikers: `git filter-repo --mailmap mailmap.txt` of `git filter-branch`.
 
 ## Stap 6 — (Optioneel) Branch-protectie en CI
 
@@ -138,7 +111,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
-      - run: pip install jsonschema
+      - run: pip install -r requirements.txt
       - run: python3 scripts/package_skills.py --validate-only
       - run: python3 scripts/generate_manifests.py --check
       - run: python3 tests/test_pipeline_contracts.py
@@ -168,8 +141,7 @@ Je hebt de rebase gedaan maar de tags niet ververst. Voer de `git tag -f -a ...`
 Je hebt op GitHub een repo met:
 
 - Een clean commit-geschiedenis die de hele evolutie van het project laat zien.
-- 4 tags die als release-punten dienen.
-- Per tag een release-pagina waarop je de changelog van die ronde kunt zetten.
-- Een diff tussen twee tags direct in de UI te bekijken via `?compare=base...head`.
+- (Optioneel, als je tags hebt gezet) tags die als release-punten dienen, elk met een eigen release-pagina voor changelog-notities.
+- Een diff tussen twee commits/tags direct in de UI te bekijken via `?compare=base...head`.
 
 Zo kan een reviewer precies zien wat er in elke ronde is veranderd, en kan jij later altijd teruggrijpen op een eerdere versie.

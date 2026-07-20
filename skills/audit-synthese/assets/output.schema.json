@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legal-skills.local/ecli-verificatie/output.schema.json",
+  "title": "ecli-verificatie output",
+  "description": "JSON-array van claimverificaties zoals geproduceerd door Fase 2 van de juridische audit-pijplijn. Zie references/json-output-schema.md voor de mensgerichte documentatie.",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "claim_id",
+      "doc_id",
+      "ecli",
+      "ecli_formaat_geldig",
+      "extractie_zekerheid",
+      "bron_aangeleverd",
+      "bronbestand",
+      "instantie",
+      "datum",
+      "rechtsgebied",
+      "bewering_analyse",
+      "oordeel",
+      "vindplaats",
+      "broncitaat",
+      "relevante_broninhoud",
+      "toelichting"
+    ],
+    "properties": {
+      "claim_id": {
+        "type": "string",
+        "description": "Claim-ID uit het Claim Register (bijv. C001), of '_error' voor de self-repair fallback-entry.",
+        "minLength": 1
+      },
+      "doc_id": {
+        "type": "string",
+        "description": "Document-ID uit het Claim Register (bijv. 'Document 1'), of '_error' voor de fallback-entry.",
+        "minLength": 1
+      },
+      "ecli": {
+        "type": "string",
+        "description": "ECLI van de bronuitspraak zoals overgenomen uit het Claim Register (kan ongeldige syntaxis bevatten — zie ecli_formaat_geldig), of exact 'N/A' wanneer de claim geen ECLI had.",
+        "minLength": 1
+      },
+      "ecli_formaat_geldig": {
+        "type": "boolean",
+        "description": "true als de ecli-waarde voldoet aan de ECLI-regex ^ECLI:[A-Z]{2}:[A-Z0-9]+:\\d{4}:[A-Za-z0-9.]+$, anders false. Voor ecli='N/A' is deze waarde false."
+      },
+      "extractie_zekerheid": {
+        "type": "string",
+        "description": "Extractie-zekerheid overgenomen uit het Claim Register.",
+        "enum": ["HOOG", "MIDDEN", "LAAG"]
+      },
+      "bron_aangeleverd": {
+        "type": "boolean",
+        "description": "true als minstens één bronbestand is aangeleverd voor deze ECLI, anders false."
+      },
+      "bronbestand": {
+        "type": "string",
+        "description": "Pad of bestandsnaam van het gebruikte bronbestand, of lege string."
+      },
+      "instantie": {
+        "type": "string",
+        "description": "Rechterlijke instantie uit bronmetadata, of lege string."
+      },
+      "datum": {
+        "type": "string",
+        "description": "Uitspraakdatum in ISO 8601 (YYYY-MM-DD), of lege string.",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$|^$"
+      },
+      "rechtsgebied": {
+        "type": "string",
+        "description": "Rechtsgebied uit bronmetadata, of lege string."
+      },
+      "bewering_analyse": {
+        "type": "string",
+        "description": "Atomaire bewering, exact overgenomen uit het Claim Register.",
+        "minLength": 1
+      },
+      "oordeel": {
+        "type": "string",
+        "description": "Een van de vijf toegestane oordelen.",
+        "enum": ["BEVESTIGD", "GEDEELTELIJK", "NIET_BEVESTIGD", "TEGENGESPROKEN", "NIET_CONTROLEERBAAR"]
+      },
+      "vindplaats": {
+        "type": "string",
+        "description": "Vindplaats in de bronuitspraak (r.o., punt, par.), of lege string."
+      },
+      "broncitaat": {
+        "type": "string",
+        "description": "Relevant citaat uit de bronuitspraak, maximaal circa 500 tekens, of lege string.",
+        "maxLength": 600
+      },
+      "relevante_broninhoud": {
+        "type": "string",
+        "description": "Korte samenvatting van het citaat in gewone taal."
+      },
+      "toelichting": {
+        "type": "string",
+        "description": "Korte toelichting op het oordeel."
+      }
+    }
+  }
+}
