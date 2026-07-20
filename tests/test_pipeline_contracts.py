@@ -311,6 +311,7 @@ def main() -> int:
     test_q4_gerelateerde_claims()
     test_q5_jurisdictie_buiten_scope_fase1()
     test_q6_jurisdictie_buiten_scope_fase2()
+    test_q7_brug_extern_ophaalscript()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -662,6 +663,20 @@ def test_q6_jurisdictie_buiten_scope_fase2() -> None:
     check("noemt de scope NL,EU,EHRM expliciet", "NL,EU,EHRM" in sh)
 
 
+# ------------------------------------------------------------------
+# Test 32 (Q7): Brug naar extern ECLI-ophaalscript gedocumenteerd
+# ------------------------------------------------------------------
+def test_q7_brug_extern_ophaalscript() -> None:
+    print("\n[32] Q7: brug naar extern ECLI-ophaalscript in workflow.md + source-handling.md")
+    wf = (ROOT / "docs/workflow.md").read_text(encoding="utf-8")
+    check("workflow.md bevat 'Externe hulpmiddelen'", "Externe hulpmiddelen" in wf)
+    check("workflow.md noemt ecli_lookup_V10.py", "ecli_lookup_V10.py" in wf)
+    check("workflow.md noemt het eclis.txt-formaat", "eclis.txt" in wf)
+    sh = (ROOT / "skills/ecli-verificatie/references/source-handling.md").read_text(encoding="utf-8")
+    check("source-handling.md bevat sectie 'Manifestvormen'", "Manifestvormen" in sh)
+    check("source-handling.md noemt de items-array-vorm", "items" in sh)
+
+
 # pytest-compatibele wrappers
 def test_01(): test_schema_loads()
 def test_02(): test_example_validates()
@@ -694,6 +709,7 @@ def test_28(): test_q3_fase1_context_budget()
 def test_29(): test_q4_gerelateerde_claims()
 def test_30(): test_q5_jurisdictie_buiten_scope_fase1()
 def test_31(): test_q6_jurisdictie_buiten_scope_fase2()
+def test_32(): test_q7_brug_extern_ophaalscript()
 
 
 if __name__ == "__main__":

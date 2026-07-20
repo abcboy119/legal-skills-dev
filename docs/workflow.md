@@ -72,3 +72,19 @@ De vijf knelpunten die in §1 worden opgelost gelden specifiek voor de audit-pij
 ## 5. Multi-jurisdictie
 
 De skills in deze distributie ondersteunen `jurisdiction: NL,EU,EHRM`. Bij conflicten tussen uitspraken uit verschillende jurisdicties geldt de hiërarchie EHRM > EU > NL. Zie `skills/documenten-audit/references/jurisdiction-hierarchy.md` voor de volledige procedure en conflictregels.
+
+## 6. Externe hulpmiddelen (optioneel)
+
+Deze pijplijn kan optioneel worden aangevuld met externe, losstaande scripts. Deze scripts maken **geen deel uit** van deze distributie en worden niet meegepackage in de `.skill`-bestanden — het zijn hulpmiddelen die de gebruiker zelf, buiten de skill om, kan draaien tussen de fases.
+
+### ECLI's ophalen tussen Fase 1 en Fase 2
+
+Fase 1's Stap 10 (Manifest Template) levert een lijst van benodigde ECLI's, maar geen bronbestanden zelf — de gebruiker moet die zelf aanleveren. Een extern script (`ecli_lookup_V10.py`, niet onderdeel van deze repo) kan dat ophalen voor NL/EU/EHRM-uitspraken:
+
+1. Zet de ECLI-keys uit Fase 1's manifest-JSON om naar een platte lijst, één ECLI per regel (`eclis.txt`) — het script verwacht dit formaat, niet de JSON-vorm van Stap 10.
+2. Draai het script; het levert per ECLI een "normalized JSON"-bestand op (met o.a. een `tekst_waarschuwing`-veld met waarde `LEGE_TEKST`/`KORTE_TEKST`/leeg, en `instantie`/`datum`/`rechtsgebied`-velden).
+3. Gebruik deze normalized JSON-bestanden, of het script's eigen manifest-bestand, rechtstreeks als bronbijlage(n) bij Fase 2. Zie `ecli-verificatie/references/source-handling.md` voor hoe Fase 2 met beide manifestvormen omgaat.
+
+### ECLI's cross-checken in Fase 1
+
+Een extern script kan brondocumenten scannen op ECLI-vermeldingen (regex-gebaseerd, geen LLM) als objectieve cross-check op Stap 9's extractie. Zie `documenten-audit/references/ecli-scanner-crosscheck.md`.

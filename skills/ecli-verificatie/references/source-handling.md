@@ -6,6 +6,14 @@
 2. **Normalized JSON** — als voor een ECLI zowel raw XML/HTML als normalized JSON is aangeleverd, gebruik de normalized JSON als primaire verificatiebron.
 3. **ECLI-patroon in bestand** — zonder manifest en normalized JSON: zoek in de ruwe tekst van XML-/HTML-bestanden of in de bestandsnaam naar `ECLI:`.
 
+## Manifestvormen
+
+Een aangeleverd manifest kan in twee vormen voorkomen:
+1. **Eenvoudige vorm** (Fase 1, Stap 10): plat JSON-object `{"ECLI:...": "pad/naar/bestand"}`.
+2. **Rijke vorm** (bijv. van een extern ophaal-script): JSON-object met een `items`-array, waarin elk item minstens een `ecli`- en een `normalized_bestand`- of `source_file`-veld heeft.
+
+Herken de vorm aan de aanwezigheid van een `items`-array; koppel in dat geval per item op het `ecli`-veld in plaats van op de top-level key.
+
 ## Wanneer geldt een bron als aangeleverd?
 Alleen als minstens één van de volgende geldt:
 1. Het manifest koppelt de ECLI expliciet aan een bronbestand; of
