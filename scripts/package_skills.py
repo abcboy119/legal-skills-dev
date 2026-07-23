@@ -8,6 +8,7 @@ import shutil
 import sys
 import zipfile
 from pathlib import Path
+from typing import Any
 
 REQUIRED_FIELDS = ("name", "description", "version", "last_updated", "author", "license", "jurisdiction", "compatibility", "source")
 OPTIONAL_FIELDS = ("compatibility_versions",)
@@ -19,22 +20,37 @@ SEMVER_RANGE_RE = re.compile(r"^(\*|>=?\d+\.\d+(?:\.\d+)?|~\d+\.\d+(?:\.\d+)?|\d
 DISCLAIMER_MARKER = "concept ter beoordeling"
 IGNORED_FILES = {".DS_Store", "__pycache__", ".git", "MANIFEST.json"}
 
+
 class ValidationError(Exception):
+    """Exception raised when frontmatter validation fails."""
     pass
 
+
 def project_root() -> Path:
+    """Return the project root directory."""
     return Path(__file__).resolve().parent.parent
 
+
 def validate_version(version: str) -> bool:
+    """Validate semver format."""
     return bool(VERSION_RE.match(version.strip()))
 
+
 def validate_date(date: str) -> bool:
+    """Validate YYYY-MM-DD format."""
     return bool(DATE_RE.match(date.strip()))
 
 
-def validate_compatibility_versions(cv: dict) -> list[str]:
-    """Valideer compatibility_versions map (platform → semver-range)."""
-    errors = []
+def validate_compatibility_versions(cv: dict[str, Any]) -> list[str]:
+    """Valideer compatibility_versions map (platform → semver-range).
+
+    Args:
+        cv: Dictionary mapping platform names to version ranges.
+
+    Returns:
+        List of error messages (empty if valid).
+    """
+    errors: list[str] = []
     if not isinstance(cv, dict):
         return ["compatibility_versions moet een map zijn"]
     for platform, version in cv.items():
@@ -45,11 +61,25 @@ def validate_compatibility_versions(cv: dict) -> list[str]:
             errors.append(f"compatibility_versions[{platform}]: '{version}' is geen geldige semver-range (zie conventions.md)")
     return errors
 
+
 def validate_description(desc: str) -> bool:
+    """Validate description length (30-500 characters)."""
     clean = " ".join(desc.split())
     return DESC_MIN <= len(clean) <= DESC_MAX
 
-def parse_frontmatter(skill_md: Path) -> dict:
+
+def parse_frontmatter(skill_md: Path) -> dict[str, Any]:
+    """Parse YAML frontmatter from SKILL.md file.
+
+    Args:
+        skill_md: Path to the SKILL.md file.
+
+    Returns:
+        Dictionary of parsed frontmatter fields.
+
+    Raises:
+        ValidationError: If frontmatter is missing or malformed.
+    """
     text = skill_md.read_text(encoding="utf-8")
     if not text.startswith("---"):
         raise ValidationError(f"{skill_md}: geen frontmatter gevonden")
@@ -57,9 +87,9 @@ def parse_frontmatter(skill_md: Path) -> dict:
     if len(parts) < 3:
         raise ValidationError(f"{skill_md}: frontmatter niet afgesloten")
     block = parts[1]
-    meta = {}
-    current_key = None
-    current_lines = []
+    meta: dict[str, Any] = {}
+    current_key: str | None = None
+    current_lines: list[str] = []
     for raw in block.splitlines():
         line = raw.rstrip()
         if not line.strip():
@@ -79,7 +109,7 @@ def parse_frontmatter(skill_md: Path) -> dict:
             elif val.startswith("{") and val.endswith("}"):
                 # inline map: {key: val, key2: val2}
                 inner = val[1:-1]
-                parsed = {}
+                parsed: dict[str, Any] = {}
                 for kv in inner.split(","):
                     kv = kv.strip()
                     if not kv:
@@ -106,8 +136,17 @@ def parse_frontmatter(skill_md: Path) -> dict:
         raise ValidationError(f"{skill_md}: lege frontmatter")
     return meta
 
+
 def validate_skill(skill_dir: Path) -> list[str]:
-    errors = []
+    """Validate a skill directory.
+
+    Args:
+        skill_dir: Path to the skill directory.
+
+    Returns:
+        List of error messages (empty if valid).
+    """
+    errors: list[str] = []
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.exists():
         return [f"{skill_dir.name}: SKILL.md ontbreekt"]
@@ -159,7 +198,17 @@ def validate_skill(skill_dir: Path) -> list[str]:
                 errors.append(f"{skill_dir.name}: {sub}/ bestaat maar is leeg")
     return errors
 
+
 def package_skill(skill_dir: Path, dist_dir: Path) -> Path:
+    """Package a skill directory into a .skill ZIP file.
+
+    Args:
+        skill_dir: Path to the skill directory.
+        dist_dir: Destination directory for the .skill file.
+
+    Returns:
+        Path to the created .skill file.
+    """
     dist_dir.mkdir(parents=True, exist_ok=True)
     out = dist_dir / f"{skill_dir.name}.skill"
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
@@ -171,10 +220,11 @@ def package_skill(skill_dir: Path, dist_dir: Path) -> Path:
             z.write(path, path.relative_to(skill_dir))
     return out
 
-def iter_skills(skills_dir: Path, only: str | None) -> list[Path]:
-    """Returneer skill-mappen.
 
-    Als `only` is opgegeven, returneer een lijst met die ene map (of een lege lijst
+def iter_skills(skills_dir: Path, only: str | None) -> list[Path]:
+    """Retouneer skill-mappen.
+
+    Als `only` is opgegeven, retouneer een lijst met die ene map (of een lege lijst
     als de map niet bestaat). De caller verwerkt de lege-lijst-case expliciet —
     we returneren nooit een pad dat niet is_dir().
     """
@@ -183,11 +233,18 @@ def iter_skills(skills_dir: Path, only: str | None) -> list[Path]:
         return [candidate] if candidate.is_dir() else []
     return sorted([p for p in skills_dir.iterdir() if p.is_dir()])
 
+
 def main() -> int:
+    """Main entry point for the package_skills script."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("skill", nargs="?", help="optionele skill-naam")
-    parser.add_argument("--validate-only", action="store_true")
-    parser.add_argument("--clean", action="store_true")
+    parser.add_argument("skill", nargs="?", help="optionele skill naam")
+    parser.add_argument("--validate-only", action="store_true", help="alleen valideren, niet builden")
+    parser.add_argument("--clean", action="store_true", help="dist/ leegmaken voor build")
+    parser.add_argument(
+        "--continue-on-error",
+        action="store_true",
+        help="ga door bij validatiefouten (alleen zinvol met meerdere skills)"
+    )
     args = parser.parse_args()
 
     root = project_root()
@@ -208,29 +265,34 @@ def main() -> int:
         return 1
 
     failed = 0
+    successful: list[Path] = []
     for skill_dir in skills:
         errors = validate_skill(skill_dir)
         if errors:
             failed += 1
             for e in errors:
                 print(f"✗ {e}", file=sys.stderr)
-            continue
+            if not args.continue_on_error:
+                continue
         if args.validate_only:
             print(f"✓ {skill_dir.name} (valid)")
+            successful.append(skill_dir)
             continue
         out = package_skill(skill_dir, dist_dir)
         meta = parse_frontmatter(skill_dir / "SKILL.md")
         version_val = meta.get("version", "")
         print(f"✓ {skill_dir.name:<22} {version_val:<7} → {out.relative_to(root)}")
+        successful.append(skill_dir)
 
     if args.validate_only:
-        print(f"{len(skills) - failed}/{len(skills)} skills valid.")
+        print(f"{len(successful)}/{len(skills)} skills valid.")
     elif failed == 0:
         print(f"{len(skills)} skills packaged.")
     if failed:
         print(f"{failed} skills failed. Zie bovenstaande fouten.", file=sys.stderr)
         return 1
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -2,6 +2,11 @@
 
 > Doorloop deze checklist vóór elke release of commit op `skills/`. Werkt deze af voor elke gewijzigde skill, en voer daarna de globale stappen onderaan uit.
 
+## Setup (eenmalig)
+
+- [ ] **Python dependencies**: `pip install -r requirements.txt` (jsonschema nodig voor integratietests)
+- [ ] **Pre-commit hook**: kopieer `.git/hooks/commit-msg.sample` naar `.git/hooks/commit-msg` voor commit-message validatie
+
 ## Per skill (na wijziging van `SKILL.md`, `references/` of `assets/`)
 
 - [ ] **Frontmatter compleet**: `name`, `description`, `version`, `last_updated`, `author`, `license`, `jurisdiction`, `compatibility`, `source` — alle velden aanwezig en gevuld.

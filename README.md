@@ -1,5 +1,11 @@
 # Juridische Skills
 
+[![CI Status](https://github.com/abcboy119/legal-skills-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/abcboy119/legal-skills-dev/actions/workflows/ci.yml)
+[![Test Pass Rate](https://img.shields.io/badge/tests-186%2F186%20PASS-brightgreen)](#verificatie)
+[![Last Updated](https://img.shields.io/badge/last%20updated-2026--07--23-blue)](#)
+
+> **Laatste update:** 2026-07-23 — Zie [CHANGELOG.md](CHANGELOG.md) voor wijzigingsgeschiedenis.
+
 Drie juridische AI-skills in canonieke skill-structuur, geschikt voor Claude Code, OpenCode en Claude Desktop. Samen vormen ze een 3-fase audit- en verificatiepijplijn.
 
 ## Skills in deze distributie
@@ -33,7 +39,16 @@ python3 scripts/package_skills.py --clean               # dist/ leegmaken eerst
 
 ## Verificatie
 
-Eenmalig: `pip install -r requirements.txt` (jsonschema, nodig voor de integratietest).
+**Eenmalige installatie:**
+```bash
+pip install -r requirements.txt    # jsonschema (nodig voor integratietests)
+```
+
+**Pre-commit hook (optioneel):**
+```bash
+cp .git/hooks/commit-msg.sample .git/hooks/commit-msg 2>/dev/null || true
+# De pre-commit hook voor automatische validatie staat in .git/hooks/
+```
 
 Na wijzigingen: werk `docs/sync-checklist.md` af en draai:
 
