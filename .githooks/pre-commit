@@ -1,0 +1,21 @@
+#!/bin/sh
+# Pre-commit hook voor juridische skills
+# Voert package_skills.py --validate-only uit voordat de commit wordt voltooid
+
+echo "Running pre-commit validation..."
+
+# Ga naar de repository root
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+# Valideer alle skills
+echo "Validating skills..."
+python3 scripts/package_skills.py --validate-only --continue-on-error
+result=$?
+
+if [ $result -ne 0 ]; then
+    echo "Validation failed. Please fix the errors above."
+    exit 1
+fi
+
+echo "Pre-commit validation passed."
+exit 0
