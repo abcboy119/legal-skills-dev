@@ -5,8 +5,8 @@ description: >
   en bereid een atomair Claim Register voor. Standaard aan te roepen via /audit of
   'documenten-audit'. Activeer ook bij vragen als 'analyseer deze documenten',
   'vergelijk deze adviezen', of 'wat is de sterkste juridische onderbouwing'.
-version: 2.1.0
-last_updated: 2026-07-20
+version: 2.1.1
+last_updated: 2026-07-31
 author: Badr
 license: CC-BY-4.0
 jurisdiction: NL,EU,EHRM
@@ -150,7 +150,15 @@ Optioneel: als scanner-output beschikbaar is, cross-check de extractie ertegen â
 </step>
 
 <step number="10" name="Manifest Template">
-Genereer een JSON-codeblok met alle unieke ECLI's uit Stap 9. Dit template is bedoeld voor de gebruiker of een extern script om te weten welke bronbestanden aangeleverd moeten worden in de verificatiestap. Gebruik dit formaat:
+Genereer een JSON-codeblok met de unieke ECLI's uit Stap 9. Dit template is bedoeld voor de gebruiker of een extern script om te weten welke bronbestanden aangeleverd moeten worden in de verificatiestap.
+
+**Welke ECLI's neem je op?** Uitsluitend ECLI's die de formaatcontrole uit Stap 9 doorstaan. Sluit dus expliciet uit:
+- rijen met `ECLI = "N/A"` (er is geen bron om op te halen);
+- ECLI's die niet aan de regex voldoen (bijv. `ECLI:NL:HR:23:1`) â€” een ongeldige ECLI kan niet betrouwbaar aan een bronbestand worden gekoppeld.
+
+Vermeld onder het codeblok kort welke ECLI's om deze reden zijn weggelaten, zodat de eindredacteur ze niet kwijtraakt. De uitgesloten rijen blijven gewoon in het Claim Register staan en krijgen in Fase 2 het oordeel `NIET_CONTROLEERBAAR`. Het manifest moet valideren tegen assets/manifest.schema.json, dat alleen geldige ECLI's als sleutel toestaat.
+
+Gebruik dit formaat:
 
 ```json
 {

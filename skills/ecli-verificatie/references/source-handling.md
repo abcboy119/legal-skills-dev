@@ -3,7 +3,7 @@
 
 ## Koppelingshiërarchie (voorkeur hoog → laag)
 1. **Manifest** — als een manifestbestand is aangeleverd, gebruik dit als primaire koppeling ECLI → bronbestand.
-2. **Normalized JSON** — als voor een ECLI zowel raw XML/HTML als normalized JSON is aangeleverd, gebruik de normalized JSON als primaire verificatiebron.
+2. **Normalized JSON** — als voor een ECLI zowel raw XML/HTML als normalized JSON is aangeleverd, werk dan standaard in de normalized JSON: die is beter leesbaar en goedkoper in context. Dit is een werkvoorkeur, geen gezagsregel — zodra raw en normalized inhoudelijk van elkaar afwijken, is de raw XML/HTML doorslaggevend (zie §Conflict-resolutie hieronder).
 3. **ECLI-patroon in bestand** — zonder manifest en normalized JSON: zoek in de ruwe tekst van XML-/HTML-bestanden of in de bestandsnaam naar `ECLI:`.
 
 ## Manifestvormen
@@ -25,7 +25,7 @@ Alleen als minstens één van de volgende geldt:
 Soms zijn voor één ECLI zowel de raw XML/HTML als een normalized JSON aangeleverd, en **wijken de twee inhoudelijk van elkaar af** (bijv. normalized JSON is per ongeluk getruncteerd, bevat een verkeerde datum, of mist een paragraaf). In dat geval geldt de volgende procedure:
 
 1. **Normalisatie-controle** — vergelijk de ECLI, instantie, datum en uitspraaktekst-lengte tussen raw en normalized. Kleine verschillen (whitespace, tag-style) mogen worden genegeerd; materiële verschillen (andere datum, ontbrekende r.o.) niet.
-2. **Bij twijfel: raw wint.** De raw XML/HTML is de primaire bron. Verifieer in raw, en markeer in `toelichting`: *"Normalized JSON wijkt af van raw XML — verificatie gebaseerd op raw."*
+2. **Bij twijfel: raw wint.** De raw XML/HTML is de gezaghebbende bron (de normalized JSON is er een afgeleide van). Verifieer in raw, en markeer in `toelichting`: *"Normalized JSON wijkt af van raw XML — verificatie gebaseerd op raw."*
 3. **Bij grote discrepantie** (normalized mist > 20% van de tekst): vertrouw de normalized JSON niet, verifieer uitsluitend in raw, en voeg een aparte waarschuwing toe aan `toelichting`: *"Normalized JSON incompleet — handmatige controle van normalisatie-proces aanbevolen."*
 4. **Beide onvolledig of onleesbaar** → `NIET_CONTROLEERBAAR` met toelichting *"Zowel raw als normalized bron incompleet."*
 

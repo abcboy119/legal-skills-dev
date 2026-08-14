@@ -1,6 +1,6 @@
 {
   "skill": "ecli-verificatie",
-  "generated_at": "2026-07-20",
+  "generated_at": "2026-07-31",
   "files": [
     {
       "path": "references/context-budget.md",
@@ -16,7 +16,7 @@
     },
     {
       "path": "references/source-handling.md",
-      "sha256": "407e413aa1b1f64a2156712bb38bb939d0d5ee33e638dc9e7082d98a0b51b3c2"
+      "sha256": "780ad2ada941f71f4751a581f37fe8568cfb9b903f534c1c489baf71094fe766"
     },
     {
       "path": "assets/json-output-example.json",

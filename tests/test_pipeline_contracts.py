@@ -315,6 +315,7 @@ def main() -> int:
     test_q8_ecli_scanner_crosscheck()
     test_q9_case002_bulk_modus()
     test_schema_kopie_synchroon()
+    test_consistentieronde_contracten()
 
     print("\n" + "=" * 70)
     print(f"Resultaat: {PASS} PASS / {FAIL} FAIL")
@@ -755,42 +756,97 @@ def test_schema_kopie_synchroon() -> None:
           "wijzig het schema in ecli-verificatie en kopieer het naar audit-synthese (zie sync-checklist)")
 
 
+# ------------------------------------------------------------------
+# Test 36: contracten uit de consistentieronde (v2.1.1 / 1.2.0)
+# ------------------------------------------------------------------
+def test_consistentieronde_contracten() -> None:
+    print("\n[36] Consistentieronde: Stap 10-uitsluiting, Gerelateerde_Claims in Fase 3, impact-rubric")
+
+    # Stap 10 mag geen manifest opleveren dat manifest.schema.json schendt
+    f1 = (ROOT / "skills/documenten-audit/SKILL.md").read_text(encoding="utf-8")
+    check("Stap 10 sluit ECLI = N/A expliciet uit", "Sluit dus expliciet uit" in f1)
+    check("Stap 10 verwijst naar manifest.schema.json", "manifest.schema.json" in f1)
+
+    # Gerelateerde_Claims is in Fase 1 gedefinieerd en moet in Fase 3 daadwerkelijk landen
+    f3 = (ROOT / "skills/audit-synthese/SKILL.md").read_text(encoding="utf-8")
+    check("Fase 3 SKILL.md noemt Gerelateerde_Claims", "Gerelateerde_Claims" in f3)
+    matrix = (ROOT / "skills/audit-synthese/references/action-classification.md").read_text(encoding="utf-8")
+    check("action-classification.md heeft een sectie voor gerelateerde claims",
+          "Gerelateerde claims" in matrix)
+    check("matrix benoemt de bronnenconflict-actie", "Bronnenconflict oplossen" in matrix)
+
+    # Impact-rubric: dekkend en met dwingende volgorde
+    rubric = (ROOT / "skills/audit-synthese/references/impact-analysis-rubric.md").read_text(encoding="utf-8")
+    check("impact-rubric dekt de tegengesproken bijzaak-claim", "bijzaak-claim" in rubric)
+    check("impact-rubric legt een dwingende volgorde vast", "volgorde is dwingend" in rubric)
+    check("impact-rubric claimt niet langer 'alle claims bevestigd' als categorielabel",
+          '"Oordeel blijft overeind, alle claims bevestigd"' not in rubric)
+
+    # source-handling: normalized is werkvoorkeur, raw is gezaghebbend
+    sh = (ROOT / "skills/ecli-verificatie/references/source-handling.md").read_text(encoding="utf-8")
+    check("source-handling noemt normalized een werkvoorkeur", "werkvoorkeur" in sh)
+    check("source-handling noemt raw gezaghebbend", "gezaghebbende bron" in sh)
+
+
+# ------------------------------------------------------------------
 # pytest-compatibele wrappers
-def test_01(): test_schema_loads()
-def test_02(): test_example_validates()
-def test_03(): test_expected_validates()
-def test_04(): test_ecli_handling()
-def test_05(): test_extractie_zekerheid_present()
-def test_06(): test_action_matrix_coverage()
-def test_07(): test_irac_rubric_ankers()
-def test_08(): test_ecli_regex_in_skill()
-def test_09(): test_claim_register_template()
-def test_10(): test_validator_runs()
-def test_11(): test_self_repair_fallback()
-def test_12(): test_k7_context_budget()
-def test_13(): test_k8_raw_normalized_conflict()
-def test_14(): test_k9_disclaimer_in_all_skills()
-def test_15(): test_k10_compatibility_versions()
-def test_16(): test_k11_prompt_injection_defense()
-def test_17(): test_k12_validator_nonexistent_skill()
-def test_18(): test_p1_conventions_extended()
-def test_19(): test_p2_workflow_scope_section()
-def test_20(): test_p3_worked_example_complete()
-def test_21(): test_p4_action_matrix_bevestigd_laag()
-def test_22(): test_p5_manifest_schema()
-def test_23(): test_p6_last_updated_not_future()
-def test_24(): test_p7_manifests_consistent()
-def test_25(): test_p8_jurisdiction_hierarchy()
-def test_26(): test_q1_fase2_stopt_bij_ontbrekend_claim_register()
-def test_27(): test_q2_fase3_stopt_bij_ongeldige_json()
-def test_28(): test_q3_fase1_context_budget()
-def test_29(): test_q4_gerelateerde_claims()
-def test_30(): test_q5_jurisdictie_buiten_scope_fase1()
-def test_31(): test_q6_jurisdictie_buiten_scope_fase2()
-def test_32(): test_q7_brug_extern_ophaalscript()
-def test_33(): test_q8_ecli_scanner_crosscheck()
-def test_34(): test_q9_case002_bulk_modus()
-def test_35(): test_schema_kopie_synchroon()
+#
+# De controlefuncties hierboven heten test_* voor leesbaarheid, maar rapporteren
+# via check() (die telt en print, maar niet raist). Zonder de wrappers hieronder
+# zou pytest ze los verzamelen en altijd groen melden, ook bij FAIL. Daarom:
+#   1. __test__ = False op de controlefuncties → pytest verzamelt ze niet zelf;
+#   2. _run() vergelijkt de FAIL-teller vóór en na → een gefaalde check wordt een
+#      echte assertion-fout onder pytest.
+# ------------------------------------------------------------------
+for _name, _fn in list(globals().items()):
+    if _name.startswith("test_") and callable(_fn):
+        _fn.__test__ = False
+
+
+def _run(fn) -> None:
+    """Draai een controlefunctie en faal als er tijdens die run een check() FAILde."""
+    before = FAIL
+    fn()
+    gefaald = FAIL - before
+    assert gefaald == 0, f"{fn.__name__}: {gefaald} check(s) gefaald — zie de FAIL-regels hierboven"
+
+
+def test_01(): _run(test_schema_loads)
+def test_02(): _run(test_example_validates)
+def test_03(): _run(test_expected_validates)
+def test_04(): _run(test_ecli_handling)
+def test_05(): _run(test_extractie_zekerheid_present)
+def test_06(): _run(test_action_matrix_coverage)
+def test_07(): _run(test_irac_rubric_ankers)
+def test_08(): _run(test_ecli_regex_in_skill)
+def test_09(): _run(test_claim_register_template)
+def test_10(): _run(test_validator_runs)
+def test_11(): _run(test_self_repair_fallback)
+def test_12(): _run(test_k7_context_budget)
+def test_13(): _run(test_k8_raw_normalized_conflict)
+def test_14(): _run(test_k9_disclaimer_in_all_skills)
+def test_15(): _run(test_k10_compatibility_versions)
+def test_16(): _run(test_k11_prompt_injection_defense)
+def test_17(): _run(test_k12_validator_nonexistent_skill)
+def test_18(): _run(test_p1_conventions_extended)
+def test_19(): _run(test_p2_workflow_scope_section)
+def test_20(): _run(test_p3_worked_example_complete)
+def test_21(): _run(test_p4_action_matrix_bevestigd_laag)
+def test_22(): _run(test_p5_manifest_schema)
+def test_23(): _run(test_p6_last_updated_not_future)
+def test_24(): _run(test_p7_manifests_consistent)
+def test_25(): _run(test_p8_jurisdiction_hierarchy)
+def test_26(): _run(test_q1_fase2_stopt_bij_ontbrekend_claim_register)
+def test_27(): _run(test_q2_fase3_stopt_bij_ongeldige_json)
+def test_28(): _run(test_q3_fase1_context_budget)
+def test_29(): _run(test_q4_gerelateerde_claims)
+def test_30(): _run(test_q5_jurisdictie_buiten_scope_fase1)
+def test_31(): _run(test_q6_jurisdictie_buiten_scope_fase2)
+def test_32(): _run(test_q7_brug_extern_ophaalscript)
+def test_33(): _run(test_q8_ecli_scanner_crosscheck)
+def test_34(): _run(test_q9_case002_bulk_modus)
+def test_35(): _run(test_schema_kopie_synchroon)
+def test_36(): _run(test_consistentieronde_contracten)
 
 
 if __name__ == "__main__":

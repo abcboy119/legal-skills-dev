@@ -21,6 +21,25 @@ De actie wordt bepaald door de combinatie van `oordeel` en `extractie_zekerheid`
 
 Zelfs als een bron de bewering toevallig ondersteunt, was de oorspronkelijke extractie vaag. Dat betekent dat de bewering in het brondocument onduidelijk was geformuleerd — mogelijk te algemeen, te absoluut, of zonder noodzakelijke nuance. Herformulering verbetert de leesbaarheid en voorkomt dat een latere, scherper geformuleerde variant van dezelfde bewering onverifieerbaar blijkt.
 
+## Gerelateerde claims — één bewering, meerdere ECLI's
+
+Fase 1 splitst een bewering die op meerdere uitspraken steunt over meerdere rijen met een eigen `Claim_ID`, gekoppeld via de kolom `Gerelateerde_Claims` (zie `claim-register-schema.md` in `documenten-audit`). Fase 2 verifieert elke rij **onafhankelijk** en kent per rij een eigen oordeel toe; het combineren van die oordelen is daarom werk voor Fase 3.
+
+De kolom `Gerelateerde_Claims` staat niet in de verificatie-JSON — lees haar uit het Claim Register in de aangeleverde audit-markdown.
+
+Bepaal per groep:
+
+| Situatie binnen de groep | Actie-classificatie | Prioriteit |
+|---|---|---|
+| Alle claims `BEVESTIGD` | Geen actie; bewering rust op meerdere bronnen | Laag |
+| Oordelen lopen uiteen, waarvan minstens één `TEGENGESPROKEN` | "Bronnenconflict oplossen: bron X bevestigt de bewering, bron Y spreekt haar tegen — bepaal welke uitspraak leidend is" | Hoog |
+| Oordelen lopen uiteen zonder `TEGENGESPROKEN` (bijv. `BEVESTIGD` + `NIET_BEVESTIGD`) | "Bewering terugbrengen tot wat de bevestigende bron daadwerkelijk draagt; niet-steunende bron schrappen" | Midden |
+| Geen enkele claim in de groep is controleerbaar | Volg de gewone `NIET_CONTROLEERBAAR`-regels per rij | conform tabel hierboven |
+
+Bij een jurisdictieconflict binnen de groep (bijv. een NL-bron bevestigt, een EU-bron spreekt tegen) geldt de hiërarchie EHRM > EU > NL — zie `jurisdiction-hierarchy.md` in `documenten-audit`.
+
+Noem in de actielijst alle betrokken `Claim_ID`'s in één regel in plaats van per rij een losse actie; anders leest de eindredacteur hetzelfde probleem meerdere keren.
+
 ## Prioritering
 
 Binnen de actielijst geldt de volgende prioriteitsvolgorde (hoog → laag):

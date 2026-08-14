@@ -1,6 +1,6 @@
 {
   "skill": "documenten-audit",
-  "generated_at": "2026-07-20",
+  "generated_at": "2026-07-31",
   "files": [
     {
       "path": "references/agentic-file-parsing.md",
@@ -16,7 +16,7 @@
     },
     {
       "path": "references/ecli-format.md",
-      "sha256": "f2553f5d4eb7e3121a41859193b1229cb0caff56f81613ff0fe2bfb1a7f29830"
+      "sha256": "908e5df366529c40bb72d790351fcafacf480ed245a47df684c9889faea1708d"
     },
     {
       "path": "references/ecli-scanner-crosscheck.md",
@@ -28,7 +28,7 @@
     },
     {
       "path": "references/jurisdiction-hierarchy.md",
-      "sha256": "9fe7d18b5d5b55f74f921a266f935935c42aa083d4618b9227d23cd22bcaa3d5"
+      "sha256": "17bf9668e74bc8c0f99b554c7b4753d8000194315842091197cf04e73d2455ee"
     },
     {
       "path": "references/prompt-injection-defense.md",

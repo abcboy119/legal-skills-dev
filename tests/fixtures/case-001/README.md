@@ -8,7 +8,8 @@ End-to-end worked example voor de 3-fase juridische audit-pijplijn. Dit voorbeel
 tests/fixtures/case-001/
 ├── input/
 │   ├── docs.md                          # Twee juridische documenten met <document id>-delimiters
-│   └── manifest.json                    # ECLI → bronbestand mapping (Fase 1 output)
+│   └── manifest.json                    # ECLI → bronbestand mapping van de daadwerkelijk
+│                                         #   aangeleverde bronnen (subset van Stap 10)
 ├── sources/
 │   └── ECLI_NL_RBDHA_2023_1234.json     # Genormaliseerde JSON van rechtbankuitspraak
 ├── expected_audit.md                    # Verwachte Fase 1 output (Claim Register, manifest)
@@ -70,7 +71,7 @@ Twee korte juridische documenten:
 | `ecli_formaat_geldig` boolean (K2 bonus) | C001/C004 = true, C002/C003/C005 = false. |
 | `ecli = "N/A"` exact (B3) | C002, C005; geen lege strings. |
 | `extractie_zekerheid` doorgifte (B2) | Elke entry heeft HOOG/MIDDEN/LAAG uit Claim Register. |
-| Action-matrix 7 rijen (P4) | Behalve BEVESTIGD+LAAG zijn alle combinaties aanwezig. |
+| Action-matrix (P4) | Behalve BEVESTIGD+LAAG zijn alle combinaties aanwezig. |
 | Zelf-repair fallback (K1) | Niet in casus — apart getest in test_pipeline_contracts.py. |
 | Disclaimer aanwezig (K9) | Niet in casus — apart getest. |
 | Compatibility-versies (K10) | Niet in casus — apart getest. |

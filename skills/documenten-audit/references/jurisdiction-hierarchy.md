@@ -31,7 +31,7 @@ In Fase 1 (documenten-audit):
 
 In Fase 2 (ecli-verificatie):
 - Verifieer elke claim tegen zijn eigen bron (geen cross-ECLI-comparison).
-- Als een claim een NL-bron citeert maar de bewering in strijd is met een EU-bron die ook is aangeleverd: markeer `TEGENGESPROKEN` met toelichting *"NL-bron bevestigt bewering, maar EU-bron ECLI:EU:C:... spreekt dit tegen (voorangsregel EU-recht)."*
+- Als een claim een NL-bron citeert maar de bewering in strijd is met een EU-bron die ook is aangeleverd: markeer `TEGENGESPROKEN` met toelichting *"NL-bron bevestigt bewering, maar EU-bron ECLI:EU:C:... spreekt dit tegen (voorrangsregel EU-recht)."*
 
 In Fase 3 (audit-synthese):
 - In de actielijst krijgt een `TEGENGESPROKEN` wegens jurisdictieconflict prioriteit **Hoog**, met actie: *"Herzie bewering in het licht van [EHRM/EU]-uitspraak; NL-bron mag niet worden gevolgd."*
@@ -60,7 +60,7 @@ In Fase 3 (audit-synthese):
 - **Claim**: "Logbestanden vallen niet onder het inzagerecht van art. 15 AVG."
 - **Bron NL**: Rechtbank stelt dit in 2022.
 - **Bron EU**: HvJ EU (C-202/21, 2023) stelt het tegendeel.
-- **Oordeel**: `TEGENGESPROKEN` met toelichting: *"NL-bron (2022) bevestigt bewering, maar HvJ EU (2023) spreekt dit tegen. Voorangsregel EU-recht: bewering is onjuist."*
+- **Oordeel**: `TEGENGESPROKEN` met toelichting: *"NL-bron (2022) bevestigt bewering, maar HvJ EU (2023) spreekt dit tegen. Voorrangsregel EU-recht: bewering is onjuist."*
 
 ### Voorbeeld 2: EVRM-margin of appreciation
 - **Claim**: "Langdurige detentie zonder toegang tot advocaat is toegestaan."

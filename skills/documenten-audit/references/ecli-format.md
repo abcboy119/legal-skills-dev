@@ -10,7 +10,7 @@ Een geldige ECLI voldoet aan:
 ECLI:<country>:<court>:<year>:<identifier>
 ```
 
-- `country` — ISO 3166-1 alpha-2 landcode (2 hoofdletters, bijv. `NL`, `EU`, `BE`, `DE`).
+- `country` — 2 hoofdletters: ofwel een ISO 3166-1 alpha-2 landcode (`NL`, `BE`, `DE`), ofwel een gereserveerde code voor een Europese instantie — `EU` voor het HvJ EU en het Gerecht EU, `CE` voor het EHRM. `EU` en `CE` zijn dus géén landen; binnen deze distributie zijn juist `NL`, `EU` en `CE` de ondersteunde waarden (zie `jurisdiction-hierarchy.md`).
 - `court` — afkorting van de uitsprekende instantie (hoofdletters en cijfers, bijv. `HR`, `RB`, `C` voor HvJ-EU, `ECLI`-natieafhankelijk).
 - `year` — vier cijfers (jaartal van uitspraak).
 - `identifier` — alfanumerieke identifier (letters, cijfers, punten), door de instantie toegekend.

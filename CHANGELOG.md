@@ -2,6 +2,29 @@
 
 Wijzigingsgeschiedenis van de pijplijn. Oudste rondes onderaan (v1-v3 stammen uit de fase tussen `pipeline_review.zip` en `pipeline_review_fixed3.zip`).
 
+## v2.1.1 / 1.2.0 — Consistentieronde: contractgaten en testbetrouwbaarheid
+
+Versies: documenten-audit 2.1.1, ecli-verificatie 2.1.1, audit-synthese 1.2.0.
+
+### Gecorrigeerde fouten
+
+- **Testsuite gaf onder pytest vals groen**: `check()` telt en print een FAIL maar raist niet, en de `test_NN`-wrappers assertten niets. Daardoor rapporteerde de in de docstring gedocumenteerde route `python3 -m pytest tests/ -v` altijd succes, ook bij gefaalde controles. Wrappers lopen nu via `_run()`, dat de FAIL-teller vóór en na vergelijkt. Bijkomend: de controlefuncties heten zelf `test_*` en werden door pytest een tweede keer los verzameld (70 tests voor 35 controles); `__test__ = False` voorkomt dat. De directe route (`python3 tests/test_pipeline_contracts.py`) en de CI waren niet geraakt.
+- **Stap 10 kon een manifest opleveren dat zijn eigen schema schendt**: de stap vroeg om "alle unieke ECLI's uit Stap 9", terwijl `assets/manifest.schema.json` via `propertyNames` alleen geldige ECLI's als sleutel toestaat en Stap 9 juist `N/A` en formaatfouten bewaart. Stap 10 benoemt de uitsluiting nu expliciet, inclusief de eis om weggelaten ECLI's onder het codeblok te vermelden.
+- **`Gerelateerde_Claims` was een doodlopend contract**: `claim-register-schema.md` wees het signaleren van tegenstrijdige oordelen binnen een claimgroep toe aan Fase 3, maar `audit-synthese` noemde de kolom nergens. Fase 3 heeft nu een expliciete regel plus een beslistabel in `action-classification.md` (MINOR-bump).
+- **Impact-rubric was intern tegenstrijdig en niet dekkend**: de categorie "Oordeel blijft overeind, alle claims bevestigd" eiste tegelijk 0 TEGENGESPROKEN én dat "alle TEGENGESPROKEN-claims bijzaak zijn", stond ondertussen wel een niet-bevestigde claim toe, en liet het geval "tegengesproken bijzaak-claim" ongedekt. Vervangen door vijf regels met dwingende volgorde; de vier fixture-rijen behouden hun bestaande classificatie.
+- **`source-handling.md` noemde twee verschillende bronnen "primair"**: de koppelingshiërarchie wees normalized JSON aan, de conflict-resolutie raw XML. Nu onderscheiden als werkvoorkeur (normalized) versus gezag bij afwijking (raw).
+- **`ecli-format.md` noemde `EU` en `CE` ISO 3166-1 alpha-2 landcodes**: dat zijn geen landen maar gereserveerde codes voor het HvJ EU respectievelijk het EHRM. Herschreven, met verwijzing naar de ondersteunde scope.
+- **Spelfout** `voorangsregel` → `voorrangsregel` (2×, `jurisdiction-hierarchy.md`).
+- **`tests/fixtures/case-001/README.md`**: `input/manifest.json` werd "Fase 1 output" genoemd terwijl het één ECLI bevat en het Stap 10-manifest in `expected_audit.md` er twee heeft — geherlabeld als subset van daadwerkelijk aangeleverde bronnen. Verouderde telling "Action-matrix 7 rijen" verwijderd (de matrix telt er 9).
+
+### Testdekking
+
+- Nieuwe `test_consistentieronde_contracten` (test 36) legt de twee gedragswijzigingen vast: de Stap 10-uitsluiting en de verwerking van `Gerelateerde_Claims` in Fase 3, plus de herschreven impact-rubric en de raw/normalized-formulering. Suite: 36 testfuncties / 196 assertions, alles groen.
+
+### Bekend en niet gewijzigd
+
+- De vorige regel meldde "34 testfuncties / 184 assertions"; feitelijk zijn het er sinds de sync-guard-commit 35 en 186. Historische regels zijn niet met terugwerkende kracht aangepast.
+
 ## v2.1.0 / 1.1.0 — Functionele-gaten-ronde (Q1-Q9) + housekeeping
 
 Versies: documenten-audit 2.1.0, ecli-verificatie 2.1.0, audit-synthese 1.1.0. Ontwerp: `docs/superpowers/specs/2026-07-20-functionele-gaten-audit-pijplijn-design.md`.

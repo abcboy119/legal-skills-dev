@@ -5,8 +5,8 @@ description: >
   daadwerkelijke inhoud van rechterlijke uitspraken (XML/JSON). Standaard aan te
   roepen via /ecli-verificatie. Activeer ook bij 'controleer deze ECLI's',
   'kloppen deze bronverwijzingen', of input van een audit-markdown plus bronbestanden.
-version: 2.1.0
-last_updated: 2026-07-20
+version: 2.1.1
+last_updated: 2026-07-31
 author: Badr
 license: CC-BY-4.0
 jurisdiction: NL,EU,EHRM
